@@ -78,7 +78,10 @@ by check_run/review_all) · name_vocab.raw.json, return_reasons.json (unreferenc
 - **Cron lanes:** paused for audit → RESUMED. Catalog auto-processing back on.
 - Verified after every step: imports + det_golden(44) + live product smoke. All git-committed.
 
-## STILL OWNER ACTIONS (need admin / UI)
-- Install Darling_Pipeline logon task (schtasks needs elevation) — command in commit msg / memory.
-- Barsy UI: remove old Microinvest category roots + any dead cron gens (product_batch_runner*, _bak_6lane).
-- Investigate failing "Hermes Rate Limit Monitor" scheduled task.
+## OWNER ACTIONS (verified 2026-07-19)
+- OPTIONAL: install Darling_Pipeline logon task (needs admin) — restarts the REVIEW UI + image
+  pipeline after reboot. NOT needed for catalog processing (cron lanes restart via Hermes_Gateway).
+- Old Microinvest categories: ALREADY DELETED (only system 'Некатегоризирани' -1 remains). No action.
+- 'Hermes Rate Limit Monitor' task (failing): a Hermes-infra 429 watcher/notifier — NON-critical;
+  the product pipeline has its own independent spend guard. Optional to fix.
+- Dead cron gens in ~/.hermes/scripts/ (product_batch_runner*, _bak_6lane) — optional tidy.

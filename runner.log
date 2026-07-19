@@ -48471,3 +48471,9 @@
 [2026-07-19T11:25:39] FAIL 010201 (v2): name 'DIRECT_PROVIDERS' is not defined
 [2026-07-19T11:28:43] Processing 010201 (v2, attempt 1)
 [2026-07-19T11:30:23] OK 010201 in 99.5s (v2, leaf=Чинии, conf=висока, needs_human=False)
+[2026-07-19T11:35:53] Queue empty — nothing pending.
+[2026-07-19T11:35:53] Batch finished: 0 done, 0 failed.
+[2026-07-19T11:37:53] Queue empty — nothing pending.
+[2026-07-19T11:37:53] Batch finished: 0 done, 0 failed.
+[2026-07-19T11:38:53] Queue empty — nothing pending.
+[2026-07-19T11:38:53] Batch finished: 0 done, 0 failed.
