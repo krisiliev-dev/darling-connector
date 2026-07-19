@@ -178,6 +178,23 @@ def build(code, catalog, bc):
     return "create", {"article": art}
 
 
+def push_one(code, catalog=None, bc=None, images=True):
+    """Create/update ONE product in Barsy (+ its images). Returns (mode, article_id).
+    Used by the approved→store automation. Idempotent (update if the code already exists)."""
+    if catalog is None:
+        catalog = _catalog()
+    if bc is None:
+        bc = _barcodes()
+    mode, body = build(code, catalog, bc)
+    method = "Articles_update" if mode == "update" else "Articles_create"
+    out = b.call(method, body)
+    aid = body.get("article_id") or (out if isinstance(out, int)
+                                     else (out.get("article_id") if isinstance(out, dict) else None))
+    if images and aid:
+        push_images(code, aid)
+    return mode, aid
+
+
 def push_images(code, article_id, max_images=6):
     """Download a product's images (the Снимки supplier URLs) and upload them to the Barsy
     article as PICTURE files (Barsy resizes + sets article.picture). Returns (uploaded, err).
