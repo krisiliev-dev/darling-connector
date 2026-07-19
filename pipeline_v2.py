@@ -89,6 +89,21 @@ _nodes_cache = {"v": None}
 _maps_cache = {"cmap": None, "leafmap": None}
 
 
+def _refined_pin(code):
+    """The node for a leaf_refine.py-chosen leaf (product_taxonomy.source='agent_refined'),
+    or None. When present it is authoritative — reprocessing fills THIS leaf's schema."""
+    import db
+    con = db.connect()
+    try:
+        r = con.execute("SELECT gid FROM product_taxonomy WHERE code=? "
+                        "AND source='agent_refined'", (str(code),)).fetchone()
+    finally:
+        con.close()
+    if not r or not r[0]:
+        return None
+    return next((n for n in _nodes() if n["gid"] == r[0]), None)
+
+
 def _nodes():
     if _nodes_cache["v"] is None:
         import taxonomy_leaf as tl
@@ -320,40 +335,53 @@ def process(task, prior_failures):
         weak_txt = WEAK_WARN if weak else ""
 
         # ---- 1) classify --------------------------------------------------------
-        cands = _candidates(stoka, scrape_name, v1_type, code,
-                            category=str(product.get("Категории") or ""))
-        if not cands:
-            raise RuntimeError("no leaf candidates")
-        clist = "\n".join(f"  {i}. {n['bg']}  [{n['full']}]" for i, n in enumerate(cands))
-        cprompt = CLASSIFY_PROMPT.format(stoka=stoka, scrape_name=scrape_name,
-                                         category=str(product.get("Категории") or "—"),
-                                         scrape_desc=scrape_desc, v1_type=v1_type or "—",
-                                         v1_attrs=v1_attrs[:300] or "—", cands=clist,
-                                         weak=weak_txt)
-        out, model1 = ro.generate_with_chain(cprompt,
-                                             system="Отговаряй само с валиден JSON.")
-        d = ro.extract_json(out) or {}
-        defaulted = False
-        try:
-            _li = int(d.get("лист"))
-            if not 0 <= _li < len(cands):        # int("-1") would wrap to the tail
-                raise ValueError(_li)
-            leaf = cands[_li]
-        except Exception:
-            leaf = cands[0]
-            defaulted = True
-            notes.append("leaf_default_first")
-        raw_conf = str(d.get("увереност") or "").strip().lower()
-        confidence = ("висока" if raw_conf in ("висока", "high")
-                      else "средна" if raw_conf in ("средна", "medium")
-                      else "ниска")
+        # Honor an agent-refined leaf PIN: leaf_refine.py may have moved this product to a
+        # better sibling (product_taxonomy.source='agent_refined'). That choice is authoritative
+        # — reprocessing must fill THAT leaf's schema, not re-classify away from it (otherwise
+        # attributes stay filled for the wrong leaf). Skips the classify LLM call entirely.
+        _pin = _refined_pin(code)
+        if _pin is not None:
+            leaf = _pin
+            confidence = "висока"
+            defaulted = False
+            model1 = "pinned:agent_refined"
+            notes.append("leaf_pinned_refined")
+        else:
+            cands = _candidates(stoka, scrape_name, v1_type, code,
+                                category=str(product.get("Категории") or ""))
+            if not cands:
+                raise RuntimeError("no leaf candidates")
+            clist = "\n".join(f"  {i}. {n['bg']}  [{n['full']}]" for i, n in enumerate(cands))
+            cprompt = CLASSIFY_PROMPT.format(stoka=stoka, scrape_name=scrape_name,
+                                             category=str(product.get("Категории") or "—"),
+                                             scrape_desc=scrape_desc, v1_type=v1_type or "—",
+                                             v1_attrs=v1_attrs[:300] or "—", cands=clist,
+                                             weak=weak_txt)
+            out, model1 = ro.generate_with_chain(cprompt,
+                                                 system="Отговаряй само с валиден JSON.")
+            d = ro.extract_json(out) or {}
+            defaulted = False
+            try:
+                _li = int(d.get("лист"))
+                if not 0 <= _li < len(cands):        # int("-1") would wrap to the tail
+                    raise ValueError(_li)
+                leaf = cands[_li]
+            except Exception:
+                leaf = cands[0]
+                defaulted = True
+                notes.append("leaf_default_first")
+            raw_conf = str(d.get("увереност") or "").strip().lower()
+            confidence = ("висока" if raw_conf in ("висока", "high")
+                          else "средна" if raw_conf in ("средна", "medium")
+                          else "ниска")
         if defaulted:
             confidence = "ниска"
         # ---- 1b) consensus: independent second vote (REVIEW_CHAIN = different model
         # family) confirms the leaf; disagreement goes to a vision tie-break on the
         # photo; unresolved disagreement downgrades confidence and flags for review.
-        leaf, confidence = _consensus(ro, cprompt, cands, leaf, confidence,
-                                      str(gt.get("Снимка") or "").strip(), notes)
+        if _pin is None:            # a pinned refined leaf is authoritative — no 2nd vote
+            leaf, confidence = _consensus(ro, cprompt, cands, leaf, confidence,
+                                          str(gt.get("Снимка") or "").strip(), notes)
         notes.append(f"leaf:{leaf['gid'].rsplit('/', 1)[-1]}")
         notes.append(f"leaf_conf:{confidence}")
         cat_vert = _category_vertical(product)
