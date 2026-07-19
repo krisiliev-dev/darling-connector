@@ -238,3 +238,67 @@ REVIEW  : needs_human 572/1120 (51%) | top reasons {'leaf_conf:висока': 42
 PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
 BRANDS  : {'Hobby life': 229, 'Güral Porselen': 171, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
 FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 07:57:52 =====
+FLEET   : 1120/1120 done (100%) | +111 in last 30min | avg 193.7s | lanes(py)=30 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 908, 'средна': 145, 'ниска': 67} | high=81%
+          consensus {'agree': 649, 'single_vote': 337, 'vision_tiebreak': 124, 'unresolved_disagree': 10} | branch_mismatch=39
+REVIEW  : needs_human 566/1120 (51%) | top reasons {'leaf_conf:висока': 409, 'vision_mismatch': 369, 'attr_sparse': 297, 'leaf_consensus': 295, 'quality_flags_forced': 265}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 171, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 08:27:52 =====
+FLEET   : 1120/1120 done (100%) | +91 in last 30min | avg 234.0s | lanes(py)=30 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 909, 'средна': 146, 'ниска': 65} | high=81%
+          consensus {'agree': 643, 'single_vote': 344, 'vision_tiebreak': 123, 'unresolved_disagree': 10} | branch_mismatch=33
+REVIEW  : needs_human 536/1120 (48%) | top reasons {'leaf_conf:висока': 385, 'vision_mismatch': 366, 'attr_sparse': 294, 'leaf_consensus': 273, 'quality_flags_forced': 217}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 174, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 08:57:51 =====
+FLEET   : 1120/1120 done (100%) | +90 in last 30min | avg 237.5s | lanes(py)=30 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 915, 'средна': 142, 'ниска': 63} | high=82%
+          consensus {'agree': 647, 'single_vote': 344, 'vision_tiebreak': 119, 'unresolved_disagree': 10} | branch_mismatch=27
+REVIEW  : needs_human 519/1120 (46%) | top reasons {'leaf_conf:висока': 373, 'vision_mismatch': 357, 'attr_sparse': 296, 'leaf_consensus': 261, 'leaf_vote2_unavailable': 175}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 175, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 09:27:52 =====
+FLEET   : 1120/1120 done (100%) | +118 in last 30min | avg 185.7s | lanes(py)=30 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 913, 'средна': 144, 'ниска': 63} | high=82%
+          consensus {'agree': 650, 'single_vote': 346, 'vision_tiebreak': 115, 'unresolved_disagree': 9} | branch_mismatch=26
+REVIEW  : needs_human 510/1120 (46%) | top reasons {'leaf_conf:висока': 366, 'vision_mismatch': 359, 'attr_sparse': 311, 'leaf_consensus': 261, 'leaf_vote2_unavailable': 171}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 175, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 09:57:52 =====
+FLEET   : 1120/1120 done (100%) | +135 in last 30min | avg 162.9s | lanes(py)=30 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 907, 'ниска': 61, 'средна': 152} | high=81%
+          consensus {'agree': 638, 'single_vote': 349, 'unresolved_disagree': 12, 'vision_tiebreak': 121} | branch_mismatch=25
+REVIEW  : needs_human 489/1120 (44%) | top reasons {'vision_mismatch': 358, 'leaf_conf:висока': 347, 'attr_sparse': 305, 'leaf_consensus': 245, 'leaf_vote2_unavailable': 164}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 175, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 10:27:52 =====
+FLEET   : 1120/1120 done (100%) | +107 in last 30min | avg 186.5s | lanes(py)=26 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 906, 'ниска': 62, 'средна': 152} | high=81%
+          consensus {'agree': 638, 'single_vote': 348, 'unresolved_disagree': 12, 'vision_tiebreak': 122} | branch_mismatch=24
+REVIEW  : needs_human 476/1120 (42%) | top reasons {'vision_mismatch': 371, 'leaf_conf:висока': 333, 'attr_sparse': 297, 'leaf_consensus': 235, 'leaf_vote2_unavailable': 159}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 175, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 10:57:48 =====
+FLEET   : 1120/1120 done (100%) | +40 in last 30min | avg 191.2s | lanes(py)=4 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 902, 'ниска': 62, 'средна': 156} | high=81%
+          consensus {'agree': 639, 'single_vote': 344, 'unresolved_disagree': 12, 'vision_tiebreak': 125} | branch_mismatch=24
+REVIEW  : needs_human 472/1120 (42%) | top reasons {'vision_mismatch': 370, 'leaf_conf:висока': 327, 'attr_sparse': 299, 'leaf_consensus': 234, 'leaf_vote2_unavailable': 154}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 175, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 11:27:48 =====
+FLEET   : 1120/1120 done (100%) | +0 in last 30min | avg Nones | lanes(py)=4 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 902, 'ниска': 62, 'средна': 156} | high=81%
+          consensus {'agree': 639, 'single_vote': 344, 'unresolved_disagree': 12, 'vision_tiebreak': 125} | branch_mismatch=24
+REVIEW  : needs_human 472/1120 (42%) | top reasons {'vision_mismatch': 370, 'leaf_conf:висока': 327, 'attr_sparse': 299, 'leaf_consensus': 234, 'leaf_vote2_unavailable': 154}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 175, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
