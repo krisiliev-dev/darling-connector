@@ -25,8 +25,11 @@ import json
 import re
 import sys
 from collections import defaultdict
+from pathlib import Path
 
 import barsy_api as b
+
+HERE = Path(__file__).parent
 
 # our normalized unit (Мярка / amount_type_name_short) -> Barsy amount_type_id
 UNIT_TO_ID = {
