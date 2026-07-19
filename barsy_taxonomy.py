@@ -54,6 +54,52 @@ def _save_map(m):
     MAP.write_text(json.dumps(m, ensure_ascii=False), encoding="utf-8")
 
 
+_NODE_IDX = None
+
+
+def _nodes_by_gid():
+    global _NODE_IDX
+    if _NODE_IDX is None:
+        _NODE_IDX = {n["gid"]: n for n in json.loads(TAX.read_text(encoding="utf-8"))}
+    return _NODE_IDX
+
+
+def ensure_path(gid):
+    """Just-in-time: ensure `gid` + all its ancestors exist as Barsy categories (create any
+    missing, parents-first), return the leaf's cat_id. Lets a product push its category
+    immediately without waiting for the full background build. Returns None on unknown gid."""
+    if not gid:
+        return None
+    cmap = _load_map()
+    if gid in cmap:
+        return cmap[gid]
+    idx = _nodes_by_gid()
+    chain, g = [], gid                          # root -> leaf ancestor chain
+    while g is not None:
+        chain.append(g)
+        g = _parent_gid(g)
+    chain.reverse()
+    parent_id = None
+    created = False
+    for cg in chain:
+        if cg in cmap:
+            parent_id = cmap[cg]
+            continue
+        node = idx.get(cg)
+        if not node:
+            return None
+        out = b.call("Categories_create", _payload(node, parent_id))
+        cid = out if isinstance(out, int) else (out.get("cat_id") if isinstance(out, dict) else None)
+        if not cid:
+            return None
+        cmap[cg] = cid
+        parent_id = cid
+        created = True
+    if created:
+        _save_map(cmap)
+    return cmap.get(gid)
+
+
 def _payload(cat, parent_id):
     gid = cat["gid"]
     eng_leaf = cat["full"].split(" > ")[-1].strip()

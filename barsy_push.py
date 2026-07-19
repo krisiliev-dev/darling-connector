@@ -99,15 +99,25 @@ def _unit_id(fields, existing):
 _CATMAP = None
 
 
-def _cat_id_for(meta):
-    """Barsy cat_id for a product's Shopify leaf gid, via the taxonomy build's checkpoint."""
+def _cat_id_for(meta, ensure=False):
+    """Barsy cat_id for a product's Shopify leaf gid. Read-only against the build checkpoint by
+    default; with ensure=True (the write path) it CREATES the leaf + ancestors just-in-time so a
+    product never waits on the full background taxonomy build."""
+    gid = (meta or {}).get("leaf_gid")
+    if not gid:
+        return None
+    if ensure:
+        import barsy_taxonomy as bt
+        try:
+            return bt.ensure_path(gid)
+        except Exception:
+            pass                                # fall back to read-only lookup below
     global _CATMAP
     if _CATMAP is None:
         import json
         p = HERE / "barsy_cat_map.json"
         _CATMAP = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
-    gid = (meta or {}).get("leaf_gid")
-    return _CATMAP.get(gid) if gid else None
+    return _CATMAP.get(gid)
 
 
 def _num(v):
@@ -119,7 +129,7 @@ def _num(v):
         return None
 
 
-def build(code, catalog, bc):
+def build(code, catalog, bc, ensure_cat=False):
     """Return (mode, body) for one code. mode is 'update' or 'create'. body is the API arg.
     Only GAP fields are set on update; price/qty are never written here."""
     fields, meta = _fields(code)
@@ -136,7 +146,7 @@ def build(code, catalog, bc):
     if details:
         art["details"] = details
     desc = str(fields.get("Описание") or "").strip()
-    cat_id = _cat_id_for(meta)                          # Shopify leaf gid -> Barsy cat_id
+    cat_id = _cat_id_for(meta, ensure=ensure_cat)       # Shopify leaf gid -> Barsy cat_id
     if cat_id:
         art["cat_id"] = cat_id
         art["master_cat_id"] = cat_id
@@ -185,7 +195,7 @@ def push_one(code, catalog=None, bc=None, images=True):
         catalog = _catalog()
     if bc is None:
         bc = _barcodes()
-    mode, body = build(code, catalog, bc)
+    mode, body = build(code, catalog, bc, ensure_cat=True)
     method = "Articles_update" if mode == "update" else "Articles_create"
     out = b.call(method, body)
     aid = body.get("article_id") or (out if isinstance(out, int)
