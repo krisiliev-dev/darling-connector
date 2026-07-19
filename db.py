@@ -7,11 +7,13 @@ Design (event-sourced, mirrors what the JSONL already does, but indexed + ACID):
   * versions  — append-only history: one row per stored product version (every stage).
   * products  — the current canonical (latest ts) per code, upserted on each version.
 
-WAL mode + busy_timeout make the 12 concurrent lanes safe writers with no rewrite races.
-For now the DB runs as a DUAL-WRITE mirror alongside the JSONL (best-effort from
-process_agentic): the JSONL stays the ground truth and export format, the DB gives fast
-queries and clean history. `ingest()` (re)builds it from the JSONL at any time, so the two
-can always be reconciled. Flipping readers to the DB is a later, low-risk step.
+WAL mode + busy_timeout make the concurrent lanes safe writers with no rewrite races.
+
+AUTHORITATIVE STORE (owner directive, corrected 2026-07-19): the DB is the system of record.
+All readers read the DB (review_server, run_one/pipeline_v2 done-set + queue, etc.); writers
+dual-write DB-FIRST, then append the JSONL. The `results*.jsonl` are a rebuildable append-only
+EXPORT / disaster-recovery source — `ingest()` reconstructs the DB from them — but they are NOT
+what the pipeline reads at runtime. (The earlier "JSONL is ground truth" note was stale.)
 """
 import json, glob, sqlite3
 from pathlib import Path

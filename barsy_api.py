@@ -59,18 +59,36 @@ def call(method, body=None, bid=None, timeout=60):
         raise BarsyError("BARSY_USER / BARSY_PASS not set in ~/.hermes/.env")
     url = f"{base}/{method}" + (f"?bid={bid}" if bid else "")
     data = json.dumps(body if body is not None else []).encode("utf-8")
-    req = urllib.request.Request(url, data=data, method="POST")
-    req.add_header("Content-Type", "application/json")
     tok = base64.b64encode(f"{user}:{pw}".encode("utf-8")).decode("ascii")
-    req.add_header("Authorization", "Basic " + tok)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            payload = r.read().decode("utf-8", "replace")
-    except urllib.error.HTTPError as e:
-        detail = e.read().decode("utf-8", "replace")[:500]
-        raise BarsyError(f"HTTP {e.code} on {method}: {detail}")
-    except urllib.error.URLError as e:
-        raise BarsyError(f"connection error on {method}: {e.reason}")
+    # Retry transient failures — the low-tier Barsy server throws read-timeouts and
+    # "сървъра е зает" (busy) blips under load. Retry those a few times with backoff;
+    # real HTTP/API errors raise immediately.
+    import time as _time
+    payload = None
+    last = None
+    for attempt in range(4):
+        req = urllib.request.Request(url, data=data, method="POST")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("Authorization", "Basic " + tok)
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                payload = r.read().decode("utf-8", "replace")
+            break
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode("utf-8", "replace")[:500]
+            if ("зает" in detail or e.code in (502, 503, 504)) and attempt < 3:
+                last = f"HTTP {e.code}: {detail[:120]}"
+                _time.sleep(1.5 * (attempt + 1))
+                continue
+            raise BarsyError(f"HTTP {e.code} on {method}: {detail}")
+        except (TimeoutError, urllib.error.URLError, OSError) as e:
+            last = getattr(e, "reason", None) or str(e)
+            if attempt < 3:
+                _time.sleep(1.5 * (attempt + 1))
+                continue
+            raise BarsyError(f"connection error on {method} after retries: {last}")
+    if payload is None:
+        raise BarsyError(f"no response on {method}: {last}")
     try:
         out = json.loads(payload)
     except Exception:
