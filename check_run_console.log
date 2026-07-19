@@ -206,3 +206,11 @@ REVIEW  : needs_human 568/1120 (51%) | top reasons {'leaf_conf:висока': 41
 PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
 BRANDS  : {'Hobby life': 229, 'Güral Porselen': 171, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
 FLAGS   : none — healthy
+===== v2 PRIORITY BATCH — 05:57:50 =====
+FLEET   : 1120/1120 done (100%) | +99 in last 30min | avg 162.3s | lanes(py)=30 | running | V2_MODE=on
+LEAF    : coverage 100% (0 missing) | conf {'висока': 918, 'средна': 138, 'ниска': 64} | high=82%
+          consensus {'agree': 653, 'single_vote': 328, 'vision_tiebreak': 129, 'unresolved_disagree': 10} | branch_mismatch=55
+REVIEW  : needs_human 563/1120 (50%) | top reasons {'leaf_conf:висока': 418, 'vision_mismatch': 361, 'leaf_consensus': 300, 'attr_sparse': 279, 'quality_flags_forced': 274}
+PROVIDER: recent v2 failures {'no leaf candidates': 2, "Error code: 429 - {'id': '3fb5c096-9de5-": 1, "Error code: 429 - {'id': '2a4d4c0c-fe52-": 1, "Error code: 429 - {'id': 'b690c3c4-c799-": 1}
+BRANDS  : {'Hobby life': 229, 'Güral Porselen': 171, 'HORECANO': 147, 'Titiz': 130, 'Renga': 93, 'Pirge': 73}
+FLAGS   : none — healthy
