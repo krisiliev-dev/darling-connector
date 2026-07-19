@@ -65,3 +65,20 @@ by check_run/review_all) · name_vocab.raw.json, return_reasons.json (unreferenc
 - **v1 excision depth**: leave the dormant v1 branch in `run_one.py` (safe, just dead weight),
   or excise it now (large dead-code reduction, needs careful testing since 21 modules import the file)?
 - **DB `versions` prune**: ok to cap history / drop non-latest `record_json`?
+
+---
+## EXECUTED (2026-07-19)
+- **Tranches 1-3 (cleanup):** deleted cruft + 43MB .bak sidecars; archived 22 one-off scripts → archive/,
+  stale data (catalog.jsonl, results.lanez_*) → archive_data/. Kept shopify_schema_align (live v2 dep).
+- **v1 excision:** removed process_agentic + inline direct-worker path + 4 dead helpers from run_one.py
+  (2319→1475 lines). v2-only dispatch. Shared WORKER_SYS/DIRECT_PROVIDERS/_DIRECT_CLIENTS preserved.
+- **DB:** NOT pruned — 0 free pages (VACUUM=0); all data live. 56MB record_json prune skipped (lossy).
+  Removed 582MB redundant pipeline.db.audit-bak. Integrity: ok.
+- **db.py docstring** corrected (DB authoritative). **barsy_api** hardened (retry timeouts/busy).
+- **Cron lanes:** paused for audit → RESUMED. Catalog auto-processing back on.
+- Verified after every step: imports + det_golden(44) + live product smoke. All git-committed.
+
+## STILL OWNER ACTIONS (need admin / UI)
+- Install Darling_Pipeline logon task (schtasks needs elevation) — command in commit msg / memory.
+- Barsy UI: remove old Microinvest category roots + any dead cron gens (product_batch_runner*, _bak_6lane).
+- Investigate failing "Hermes Rate Limit Monitor" scheduled task.
