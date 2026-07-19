@@ -1,0 +1,329 @@
+{
+ "Аксесоар": null,
+ "Бар": null,
+ "Барбекю": null,
+ "Белачка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-31-2",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Food Peelers & Corers > Food Peelers",
+  "bg": "Белачки за храна"
+ },
+ "Бенмари": null,
+ "Буркан": null,
+ "Бутилка": null,
+ "Бъркалка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-77",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Whisks",
+  "bg": "Бъркалки"
+ },
+ "Ваза": null,
+ "Валяк": null,
+ "Вана": null,
+ "Везна": null,
+ "Вилица": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-10-6-5",
+  "full": "Home & Garden > Kitchen & Dining > Tableware > Flatware > Forks",
+  "bg": "Вилици"
+ },
+ "Възглавница": null,
+ "Гарафа": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-1-12",
+  "full": "Home & Garden > Kitchen & Dining > Barware > Decanters",
+  "bg": "Гарафи"
+ },
+ "Гастроконтейнер": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-6-26-2",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Appliance Accessories > Steam Table Accessories > Steam Table Pans",
+  "bg": "Гастроконтейнери"
+ },
+ "Касерола": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-2-3-1",
+  "full": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware > Casserole Dishes",
+  "bg": "Касероли"
+ },
+ "Кашпа": null,
+ "Количка": null,
+ "Комплект": null,
+ "Контейнер": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-10-16-6",
+  "full": "Home & Garden > Household Supplies > Storage & Organization > Household Storage Containers",
+  "bg": "Домакински контейнери за съхранение"
+ },
+ "Кофа": null,
+ "Кофичка": null,
+ "Кош": null,
+ "Кошница": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-10-16-10",
+  "full": "Home & Garden > Household Supplies > Storage & Organization > Household Storage Baskets",
+  "bg": "Домакински кошници за съхранение"
+ },
+ "Кошничка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-10-16-10",
+  "full": "Home & Garden > Household Supplies > Storage & Organization > Household Storage Baskets",
+  "bg": "Домакински кошници за съхранение"
+ },
+ "Купа": null,
+ "Кутия": null,
+ "Кърпа": null,
+ "Леген": null,
+ "Лейка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-12-6-7",
+  "full": "Home & Garden > Lawn & Garden > Watering & Irrigation > Watering Cans",
+  "bg": "Лейки"
+ },
+ "Лопатка": null,
+ "Лъжица": null,
+ "Лъжичка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-10-6-6-1",
+  "full": "Home & Garden > Kitchen & Dining > Tableware > Flatware > Spoons > Teaspoons",
+  "bg": "Чаени лъжички"
+ },
+ "Маса": null,
+ "Машина": null,
+ "Мебел": null,
+ "Мелница": null,
+ "Метла": null,
+ "Моп": null,
+ "Мярка": null,
+ "Нож": null,
+ "Ножица": null,
+ "Оливерник": null,
+ "Органайзер": {
+  "gid": "gid://shopify/TaxonomyCategory/fr-20-3",
+  "full": "Furniture > Shelving Accessories > Shelf Dividers & Organizers",
+  "bg": "Разделители и органайзери за рафтове"
+ },
+ "Отварачка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-1-10-2",
+  "full": "Home & Garden > Kitchen & Dining > Barware > Cocktail Shakers & Tools > Bottle Openers",
+  "bg": "Отварачки за бутилки"
+ },
+ "Охладител": null,
+ "Палатка": null,
+ "Преса": null,
+ "Прибор": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-10-6",
+  "full": "Home & Garden > Kitchen & Dining > Tableware > Flatware",
+  "bg": "Прибори за хранене"
+ },
+ "Протектор": null,
+ "Разпределител": null,
+ "Рамка": null,
+ "Резачка": null,
+ "Резерва": null,
+ "Ренде": null,
+ "Решетка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-6-3-5",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Appliance Accessories > Cooktop, Oven & Range Accessories > Racks",
+  "bg": "Решетки"
+ },
+ "Ръкохватка": null,
+ "Саксия": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-12-1-16-2",
+  "full": "Home & Garden > Lawn & Garden > Gardening > Pots & Planters > Pots",
+  "bg": "Саксии"
+ },
+ "Салфетка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-15-3-1",
+  "full": "Home & Garden > Linens & Bedding > Table Linens > Cloth Napkins",
+  "bg": "Текстилни салфетки"
+ },
+ "Сандъче": null,
+ "Сапуниера": null,
+ "Свещ": null,
+ "Свещник": null,
+ "Стъргалка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-42-2",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Kitchen Scrapers > Bowl Scrapers",
+  "bg": "Стъргалки за купи"
+ },
+ "Сушилник": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-10-9-4-2",
+  "full": "Home & Garden > Household Supplies > Laundry Supplies > Drying Racks & Hangers > Drying Racks",
+  "bg": "Сушилници"
+ },
+ "Съд": null,
+ "Табелка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-3-50",
+  "full": "Home & Garden > Decor > Novelty Signs",
+  "bg": "Различни табели"
+ },
+ "Тава": null,
+ "Тапа": null,
+ "Тенджера": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-2-3-11",
+  "full": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware > Saucepans",
+  "bg": "Тенджери"
+ },
+ "Термометър": null,
+ "Чанта": null,
+ "Чаша": null,
+ "Черпак": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-46",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Ladles",
+  "bg": "Черпаци"
+ },
+ "Четка": null,
+ "Чиния": null,
+ "Чувал": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-10-5",
+  "full": "Home & Garden > Household Supplies > Garbage Bags",
+  "bg": "Торби за боклук"
+ },
+ "Шалте": null,
+ "Шатра": null,
+ "Дъска": null,
+ "Етажерка": {
+  "gid": "gid://shopify/TaxonomyCategory/fr-19-2-5",
+  "full": "Furniture > Shelving > Wall Shelves & Ledges > Rack Wall Shelves & Ledges",
+  "bg": "Стенни етажерки и первази"
+ },
+ "Завеса": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-3-74-1-2",
+  "full": "Home & Garden > Decor > Window Treatments > Curtains & Drapes > Drapes",
+  "bg": "Завеси"
+ },
+ "Закачалка": null,
+ "Захарница": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-73",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Sugar Dispensers",
+  "bg": "Диспенсъри за захар"
+ },
+ "Изтривалка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-3-26",
+  "full": "Home & Garden > Decor > Door Mats",
+  "bg": "Изтривалки за врати"
+ },
+ "Кана": null,
+ "Капак": null,
+ "Термос": null,
+ "Тиган": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-2-3-13-1",
+  "full": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware > Skillets & Frying Pans > Frying Pans",
+  "bg": "Тигани за пържене"
+ },
+ "Тирбушон": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-1-11-4",
+  "full": "Home & Garden > Kitchen & Dining > Barware > Corkscrews > Waiter's Corkscrews",
+  "bg": "Сервитьорски тирбушони"
+ },
+ "Тоалетна": null,
+ "Торба": null,
+ "Точилка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-62",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Rolling Pins",
+  "bg": "Точилки"
+ },
+ "Точило": {
+  "gid": "gid://shopify/TaxonomyCategory/ha-15-65",
+  "full": "Hardware > Tools > Sharpeners",
+  "bg": "Точила"
+ },
+ "Удължител": null,
+ "Фигурка": {
+  "gid": "gid://shopify/TaxonomyCategory/ae-2-2-10-1-3",
+  "full": "Arts & Entertainment > Hobbies & Creative Arts > Collectibles > Sports Collectibles > Sports Fan Accessories > Figurines",
+  "bg": "Фигурки"
+ },
+ "Форма": null,
+ "Фруктиера": null,
+ "Фуния": null,
+ "Хаванче": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-51",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Mortars & Pestles",
+  "bg": "Хаванчета и пестици"
+ },
+ "Цедка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-12",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Colanders & Strainers",
+  "bg": "Гевгири и цедки"
+ },
+ "Чадър": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-16",
+  "full": "Home & Garden > Parasols & Rain Umbrellas",
+  "bg": "Чадъри за слънце и чадъри за дъжд"
+ },
+ "Чайник": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-10-2-2",
+  "full": "Home & Garden > Kitchen & Dining > Tableware > Coffee Servers & Teapots > Teapots",
+  "bg": "Чайници"
+ },
+ "Шезлонг": {
+  "gid": "gid://shopify/TaxonomyCategory/fr-15-4-5",
+  "full": "Furniture > Outdoor Furniture > Outdoor Seating > Sunloungers",
+  "bg": "Шезлонги тип „лежанка“"
+ },
+ "Шейкър": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-63-2",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Salad Dressing Mixers & Shakers > Shakers",
+  "bg": "Шейкъри"
+ },
+ "Шиш": null,
+ "Шпатула": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-8-69",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Spatulas",
+  "bg": "Шпатули"
+ },
+ "Шприц": null,
+ "Щипка": null,
+ "Яйцерезачка": null,
+ "Гориво": {
+  "gid": "gid://shopify/TaxonomyCategory/ha-4",
+  "full": "Hardware > Fuel",
+  "bg": "Гориво"
+ },
+ "Гювеч": null,
+ "Гювече": null,
+ "Декантер": null,
+ "Джезве": null,
+ "Дозатор": null,
+ "Драперия": null,
+ "Дръжка": null,
+ "Пасатор": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-7-17-1-3",
+  "full": "Home & Garden > Kitchen & Dining > Kitchen Appliances > Food Mixers & Blenders > Food Blenders > Immersion Blenders",
+  "bg": "Пасатори"
+ },
+ "Пепелник": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-19-1",
+  "full": "Home & Garden > Smoking Accessories > Ashtrays",
+  "bg": "Пепелници"
+ },
+ "Пиперница": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-10-3-2",
+  "full": "Home & Garden > Kitchen & Dining > Tableware > Condiment Shakers > Pepper Shakers",
+  "bg": "Пиперници"
+ },
+ "Плато": null,
+ "Плоча": null,
+ "Подложка": null,
+ "Покривка": null,
+ "Поставка": null,
+ "Сервиз": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-11-10-4",
+  "full": "Home & Garden > Kitchen & Dining > Tableware > Dinnerware",
+  "bg": "Сервизи за вечеря"
+ },
+ "Сламка": {
+  "gid": "gid://shopify/TaxonomyCategory/ae-3-2-11",
+  "full": "Arts & Entertainment > Party & Celebration > Party Supplies > Drinking Straws & Stirrers",
+  "bg": "Сламки и бъркалки за пиене"
+ },
+ "Солница": null,
+ "Спрей": null,
+ "Стелаж": {
+  "gid": "gid://shopify/TaxonomyCategory/fr-20",
+  "full": "Furniture > Shelving Accessories",
+  "bg": "Стелажни рафтове и первази"
+ },
+ "Стол": null,
+ "Стъклочистачка": {
+  "gid": "gid://shopify/TaxonomyCategory/hg-10-6-18",
+  "full": "Home & Garden > Household Supplies > Household Cleaning Supplies > Squeegees",
+  "bg": "Стъклочистачки"
+ },
+ "Стълба": {
+  "gid": "gid://shopify/TaxonomyCategory/ha-15-27-2-3",
+  "full": "Hardware > Tools > Ladders & Scaffolding > Ladders > Step Ladders",
+  "bg": "Стълби със стъпала"
+ }
+}

@@ -1,0 +1,30 @@
+2193 products on site, 2193 to scrape
+  FAIL https://mitibg.com/produkt/%d0%ba%d1%83%d1%82%d0%b8%d1%8f-%d0%bf%d0%be%d0%bb%d0%: IncompleteRead(428470 bytes read)
+  100/2193 scraped
+  200/2193 scraped
+  FAIL https://mitibg.com/produkt/%d1%89%d0%b8%d0%bf%d0%ba%d0%b0-%d0%b7%d0%b0-%d1%81%d0: <urlopen error [WinError 10053] An established connection wa
+  FAIL https://mitibg.com/produkt/%d0%ba%d0%be%d0%bc%d0%bf%d0%bb%d0%b5%d0%ba%d1%82-%d1%: <urlopen error [Errno 11001] getaddrinfo failed>
+  FAIL https://mitibg.com/produkt/%d0%ba%d0%be%d0%bc%d0%bf%d0%bb%d0%b5%d0%ba%d1%82-%d1%: <urlopen error [Errno 11001] getaddrinfo failed>
+  FAIL https://mitibg.com/produkt/%d0%bf%d0%be%d0%b4%d0%bb%d0%be%d0%b6%d0%ba%d0%b0-%d0%: <urlopen error [Errno 11001] getaddrinfo failed>
+  300/2193 scraped
+  400/2193 scraped
+  FAIL https://mitibg.com/produkt/%d0%bb%d0%b5%d0%b4-%d0%be%d0%b3%d0%bb%d0%b5%d0%b4%d0%: IncompleteRead(424122 bytes read)
+  500/2193 scraped
+  600/2193 scraped
+  700/2193 scraped
+  800/2193 scraped
+  900/2193 scraped
+  1000/2193 scraped
+  1100/2193 scraped
+  1200/2193 scraped
+  1300/2193 scraped
+  1400/2193 scraped
+  1500/2193 scraped
+  1600/2193 scraped
+  1700/2193 scraped
+  FAIL https://mitibg.com/produkt/%d0%bc%d0%bb%d0%b5%d0%ba%d0%be%d0%b2%d0%b0%d1%80%d0%b: IncompleteRead(420088 bytes read)
+  1800/2193 scraped
+  1900/2193 scraped
+  2000/2193 scraped
+  2100/2193 scraped
+DONE: 2186 scraped -> miti_products.jsonl

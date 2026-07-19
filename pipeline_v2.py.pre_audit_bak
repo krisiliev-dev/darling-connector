@@ -1,0 +1,425 @@
+# -*- coding: utf-8 -*-
+"""PIPELINE V2 — leaf-first, schema-driven enrichment (owner-approved 2026-07-18).
+
+Order of operations per product:
+  1. CLASSIFY into a Shopify taxonomy leaf (candidates from v1 type, prior assignment,
+     the category mapping and name-token search; confidence-gated; a leaf outside the
+     till-category's branch flags the product for review).
+  2. FILL the leaf's REQUIRED attribute schema (official bg vocabularies + universal
+     core). Enum values verbatim; "друго: X" escape (noted); "няма" allowed with reason.
+     Тип = the leaf's singular noun unless the model justifies otherwise.
+  3. NAME composed from the validated attributes (same rules/grammar engine as before).
+  4. TEXTS (Описание / Мета) generated FROM the validated record — nothing new invented.
+
+v1 output is used only as UNTRUSTED HINTS (its verified brand is kept when the gazetteer
+knows it; Свързани carried over). All deterministic guards from v1 apply unchanged.
+Writes v2 versions on top of history: notes include "v2", meta.pipeline = "v2".
+
+Activation: create the V2_MODE sentinel file — run_one.process_next routes here and the
+done-set becomes "has a v2 version".
+"""
+import json
+import re
+import time
+from pathlib import Path
+
+HERE = Path(__file__).parent
+
+CLASSIFY_PROMPT = """Класифицирай продукта в НАЙ-ТОЧНАТА категория-лист от Shopify
+таксономията. Продукт:
+  Име (каса): {stoka}
+  Категория в магазина: {category}   ← силен сигнал за какво СЛУЖИ продуктът
+  Име (доставчик): {scrape_name}
+  Описание (скрейп): {scrape_desc}
+  v1 данни (НЕПРОВЕРЕНИ подсказки): Тип: {v1_type}; Атрибути: {v1_attrs}
+ВНИМАНИЕ: името от касата може да е подвеждащо — ако категорията и описанието сочат друг
+тип продукт, вярвай на тях (напр. „щипка“ в категория „Чинии и плата“ вероятно е плато).
+
+Кандидати:
+{cands}
+
+Върни САМО валиден JSON:
+{{"лист": <номер>, "увереност": "висока"|"средна"|"ниска"}}"""
+
+FILL_PROMPT = """Попълни ЗАДЪЛЖИТЕЛНИТЕ атрибути на продукта по схемата на категорията
+"{leaf}". ПРАВИЛА:
+- Стойност САМО от списъка, ако има списък. Ако вярната стойност липсва в списъка:
+  "друго: <стойност>". Ако групата не е приложима за този продукт: "няма".
+- НИЩО измислено: всяка стойност трябва да следва от данните по-долу. При липса на
+  данни за група → "няма".
+- v1 подсказките може да съдържат ГРЕШКИ от визуален модел (напр. "дърво" защото
+  кутията е дървена). Ползвай стойност от v1 САМО ако се потвърждава от името,
+  доставчика или страницата — иначе "няма".
+- "Размер/Обем": размерите/обемът с мерна единица (напр. "40×60 см" или "1,5 л").
+- Ако продуктът явно НЕ е "{noun}", върни и "тип": <правилното кратко съществително>.
+
+ДАННИ:
+  Каса: {stoka}
+  Доставчик: {scrape_name} | {scrape_dims} | {scrape_brand} | {scrape_mat}
+  Описание (доставчик): {scrape_desc}
+  v1 (НЕПРОВЕРЕНИ подсказки): {v1_attrs}
+  Страница на доставчика (откъс): {page}
+
+СХЕМА:
+{schema}
+
+Върни САМО валиден JSON: {{"група": "стойност", ...}} (всички групи от схемата)."""
+
+TEXT_PROMPT = """Напиши текстовете за продуктова страница на български за този продукт.
+ЗАПИС (единствен източник на истина — НЕ добавяй факти извън него):
+  Наименование: {name}
+  Атрибути: {attrs}
+  Описание от доставчика (може да ползваш идеи, без нови факти): {scrape_desc}
+
+ФОРМАТ на описанието (SEO-структура, 60–110 думи общо):
+  <p>Уводно изречение с типа, бранда (ако има) и главното предимство — ключовите думи
+  естествено вплетени.</p>
+  <ul><li>3–5 точки: конкретните характеристики от атрибутите (материал, размер/обем,
+  механизъм, приложение) — по една на ред</li></ul>
+  <p>Кратко заключение с употребата/за кого е подходящ.</p>
+
+Върни САМО валиден JSON:
+{{"Описание": "<HTML точно по формата по-горе, без измислени факти>",
+ "Мета наименование": "<до 60 знака, ключовите думи напред>",
+ "Мета описание": "<150-160 знака, завършено изречение с тип+размер+полза>"}}"""
+
+_nodes_cache = {"v": None}
+
+
+def _nodes():
+    if _nodes_cache["v"] is None:
+        import taxonomy_leaf as tl
+        _nodes_cache["v"] = tl.load_nodes()
+    return _nodes_cache["v"]
+
+
+def _toks(s):
+    # full words, 3-letter minimum: "нож", "кош", "сач" decide leaves
+    return {w for w in re.findall(r"[а-яa-z]{3,}", str(s or "").lower())}
+
+
+def _tokscore(ptoks, s):
+    """Prefix-tolerant overlap: 'нож' matches 'ножове', 'чаши' matches 'чаша'."""
+    sc = 0
+    for lt in _toks(s):
+        for pt in ptoks:
+            if lt.startswith(pt[:4]) if len(pt) >= 4 else lt.startswith(pt):
+                sc += 1
+                break
+            if pt.startswith(lt[:4]) if len(lt) >= 4 else pt.startswith(lt):
+                sc += 1
+                break
+    return sc
+
+
+def _candidates(stoka, scrape_name, v1_type, code, category=""):
+    """Ranked candidate leaves from every signal we have — including the till category:
+    its mapped node's leaf descendants are seeded so e.g. a product in 'Чинии и плата'
+    always has plate leaves on offer even when its NAME says something else."""
+    import db
+    nodes = _nodes()
+    byg = {n["gid"]: n for n in nodes}
+    seed = []
+    cat_leaf_words = ""
+    try:
+        cmap = json.loads((HERE / "category_shopify_map.json").read_text(encoding="utf-8"))
+        bycat = {m["bg"]: m.get("shopify_category") or "" for m in cmap}
+        for part in str(category or "").split(";"):
+            p = part.strip()
+            path = bycat.get(p.split("->")[-1].strip()) or bycat.get(p.split("->")[0].strip())
+            if path:
+                cat_leaf_words += " " + p.split("->")[-1]
+                pnode = next((n for n in nodes if n["full"] == path), None)
+                if pnode:
+                    seed.append(pnode)          # non-leaf seeds expand to descendants below
+    except Exception:
+        pass
+    try:
+        m = json.loads((HERE / "canon_leaf_map.json").read_text(encoding="utf-8"))
+        lm = m.get(str(v1_type or "").strip().capitalize())
+        if lm and lm.get("gid") in byg:
+            seed.append(byg[lm["gid"]])
+    except Exception:
+        pass
+    try:
+        con = db.connect()
+        r = con.execute("SELECT gid FROM product_taxonomy WHERE code=?", (str(code),)).fetchone()
+        con.close()
+        if r and r[0] and r[0] in byg:
+            seed.append(byg[r[0]])
+    except Exception:
+        pass
+    ct = _toks(stoka) | _toks(scrape_name) | _toks(v1_type) | _toks(cat_leaf_words)
+    scored = []
+    for n in nodes:
+        if not n["leaf"]:
+            continue
+        sc = _tokscore(ct, n["bg"]) * 2 + _tokscore(ct, n["full"])
+        if sc > 0:
+            scored.append((sc, n))
+    scored.sort(key=lambda x: -x[0])
+    def _expand(parent):
+        """A non-leaf node contributes its best-matching LEAF descendants instead."""
+        subs = [x for x in nodes if x["leaf"] and x["full"].startswith(parent["full"] + " > ")]
+        subs.sort(key=lambda x: -(_tokscore(ct, x["bg"]) * 2 + _tokscore(ct, x["full"])))
+        return subs[:10]
+
+    out, seen = [], set()
+    for n in seed + [n for _s, n in scored[:14]]:
+        for cand in ([n] if n["leaf"] else _expand(n)):
+            if cand["gid"] not in seen:
+                seen.add(cand["gid"])
+                out.append(cand)
+    if not out:
+        # last resort: leaves under the whole vertical of the till category's node
+        try:
+            cmap = json.loads((HERE / "category_shopify_map.json").read_text(encoding="utf-8"))
+            paths = [m.get("shopify_category") or "" for m in cmap]
+            vert = next((p.split(" > ")[0] for p in paths if p), "Home & Garden")
+            subs = [x for x in nodes if x["leaf"] and x["full"].startswith(vert)]
+            subs.sort(key=lambda x: -(_tokscore(ct, x["bg"]) * 2 + _tokscore(ct, x["full"])))
+            out = subs[:15]
+        except Exception:
+            pass
+    return out[:15]
+
+
+def _category_vertical(product):
+    try:
+        cmap = json.loads((HERE / "category_shopify_map.json").read_text(encoding="utf-8"))
+        bycat = {m["bg"]: m.get("shopify_category") or "" for m in cmap}
+        for part in str(product.get("Категории") or "").split(";"):
+            p = part.strip()
+            s = bycat.get(p.split("->")[-1].strip()) or bycat.get(p.split("->")[0].strip())
+            if s:
+                return s.split(" > ")[0]
+    except Exception:
+        pass
+    return None
+
+
+def process(task, prior_failures):
+    import run_one as ro
+    import db
+    import leaf_schema as ls
+    import telemetry
+    code = str(task["code"])
+    product = task.get("product") or {}
+    gt = task.get("ground_truth") or {}
+    ro.log(f"Processing {code} (v2, attempt {prior_failures + 1})")
+    t0 = time.time()
+    telemetry.reset()
+    notes = ["agentic", "v2"]
+    try:
+        v1 = db.get_record(code) or {}
+        v1f = v1.get("fields") or {}
+        v1_attrs = str(v1f.get("Атрибути") or "")
+        m = re.search(r"(?i)тип\s*:\s*([^;]+)", v1_attrs)
+        v1_type = (m.group(1).strip() if m else "")
+        stoka = str(gt.get("Стока") or "")
+        scrape_name = str(gt.get("BG име (доставчик)") or gt.get("Английско име") or "")
+        scrape_desc = str(gt.get("Описание (скрейп)") or "")[:600]
+
+        # ---- 1) classify --------------------------------------------------------
+        cands = _candidates(stoka, scrape_name, v1_type, code,
+                             category=str(product.get("Категории") or ""))
+        if not cands:
+            raise RuntimeError("no leaf candidates")
+        clist = "\n".join(f"  {i}. {n['bg']}  [{n['full']}]" for i, n in enumerate(cands))
+        out, model1 = ro.generate_with_chain(
+            CLASSIFY_PROMPT.format(stoka=stoka, scrape_name=scrape_name,
+                                   category=str(product.get("Категории") or "—"),
+                                   scrape_desc=scrape_desc, v1_type=v1_type or "—",
+                                   v1_attrs=v1_attrs[:300] or "—", cands=clist),
+            system="Отговаряй само с валиден JSON.")
+        d = ro.extract_json(out) or {}
+        try:
+            leaf = cands[int(d.get("лист"))]
+        except Exception:
+            leaf = cands[0]
+            notes.append("leaf_default_first")
+        confidence = str(d.get("увереност") or "ниска")
+        notes.append(f"leaf:{leaf['gid'].rsplit('/', 1)[-1]}")
+        notes.append(f"leaf_conf:{confidence}")
+        cat_vert = _category_vertical(product)
+        if cat_vert and not leaf["full"].startswith(cat_vert):
+            notes.append("leaf_branch_mismatch")
+
+        # ---- 2) fill the schema -------------------------------------------------
+        ls.ensure_nouns([leaf["gid"]])
+        noun, gender = ls.noun_for(leaf["gid"])
+        if not noun:
+            noun, gender = leaf["bg"].split()[0].rstrip("и") or leaf["bg"], "м"
+        schema = ls.schema_for(leaf["gid"])
+        schema_txt = "\n".join(
+            "  " + g["група"] + (": [" + ", ".join(g["стойности"]) + "]"
+                                 if g["стойности"] else ": (свободна стойност)")
+            for g in schema)
+        page = ""
+        try:
+            import lookup_cache as lc
+            url = str(gt.get("URL (доставчик)") or "")
+            if url:
+                page = (lc.get("fetch", f"{url}|6000") or "")[:1200]
+        except Exception:
+            pass
+        out2, model2 = ro.generate_with_chain(
+            FILL_PROMPT.format(leaf=leaf["bg"], noun=noun, stoka=stoka,
+                               scrape_name=scrape_name,
+                               scrape_dims=str(gt.get("Размери (скрейп)") or "—"),
+                               scrape_brand=str(gt.get("Бранд (скрейп)") or "—"),
+                               scrape_mat=str(gt.get("Материал (скрейп)") or "—"),
+                               scrape_desc=scrape_desc, v1_attrs=v1_attrs[:400] or "—",
+                               page=page or "—", schema=schema_txt),
+            system="Отговаряй само с валиден JSON.")
+        vals = ro.extract_json(out2) or {}
+        typ = str(vals.pop("тип", "") or "").strip() or noun
+        if typ != noun:
+            notes.append(f"type_override:{typ}")
+        attrs_parts = [f"Тип: {typ}"]
+        allowed = {g["група"]: set(g["стойности"]) for g in schema}
+        n_other = 0
+        for g in schema:
+            k = g["група"]
+            raw = vals.get(k)
+            if isinstance(raw, list):
+                raw = ", ".join(str(x) for x in raw)
+            v = str(raw or "").strip()
+            if not v or v.lower() in ("няма", "null", "n/a", "-", "—"):
+                continue
+            if v.lower().startswith("друго:"):
+                v = v.split(":", 1)[1].strip()
+                n_other += 1
+                notes.append(f"attr_other:{k}")
+            elif allowed[k] and v not in allowed[k]:
+                match = next((a for a in allowed[k] if a.lower() == v.lower()), None)
+                if match:
+                    v = match
+                else:
+                    n_other += 1
+                    notes.append(f"attr_offlist:{k}")
+            if k == "Размер/Обем":
+                vol = re.search(r"\d+(?:[.,]\d+)?\s*(?:л|мл|l|ml)\b", v, re.I)
+                dims = re.search(r"\d+(?:[.,]\d+)?(?:\s*[x×х]\s*\d+(?:[.,]\d+)?)+"
+                                 r"(?:\s*(?:см|мм|cm|mm))?", v, re.I)
+                if dims:
+                    attrs_parts.append("Размер: " + dims.group(0).strip())
+                if vol:
+                    attrs_parts.append("Обем: " + vol.group(0).strip())
+                if not dims and not vol:
+                    attrs_parts.append("Размер: " + v)
+                continue
+            attrs_parts.append(f"{k}: {v}")
+        attrs_str = "; ".join(attrs_parts)
+        # honesty flags: sparse record (nothing beyond the type) and v1-only facts
+        if len(attrs_parts) <= 2:
+            notes.append("attr_sparse")
+        _corpus = (stoka + " " + scrape_name + " " + scrape_desc + " " + page).lower()
+        for _chk in ("Материал", "Цвят"):
+            _mv = next((p.split(":", 1)[1].strip().lower() for p in attrs_parts
+                        if p.startswith(_chk + ":")), "")
+            if _mv and _mv[:5] not in _corpus and _mv[:5] in v1_attrs.lower():
+                notes.append(f"attr_v1only:{_chk}")
+
+        # ---- 3) name from attributes -------------------------------------------
+        import name_builder as nb
+        vocab = nb.load_vocab()
+        vocab["types"][typ.lower()] = [typ.capitalize(), gender]
+        vocab["canon"].setdefault(typ.capitalize(), gender)
+        fields = dict(v1f) if v1f else {k: product.get(k) for k in product}
+        # brand: v1's only if the gazetteer confirms it
+        brand = str(v1f.get("Бранд") or "").strip()
+        if brand:
+            try:
+                import brand_tools
+                brand = brand_tools.lookup(brand) or ""
+            except Exception:
+                brand = ""
+        fields["Бранд"] = brand
+        fields["Атрибути"] = attrs_str
+        nm, _rs = nb.build_name(fields, vocab)
+        if nm:
+            fields["Наименование"] = nm
+        else:
+            fields["Наименование"] = f"{typ.capitalize()} {stoka}".strip()[:80]
+            notes.append("name_fallback")
+
+        # ---- 4) texts from the validated record --------------------------------
+        out3, model3 = ro.generate_with_chain(
+            TEXT_PROMPT.format(name=fields["Наименование"], attrs=attrs_str,
+                               scrape_desc=scrape_desc or "—"),
+            system="Отговаряй само с валиден JSON.")
+        texts = ro.extract_json(out3) or {}
+        for k in ("Описание", "Мета наименование", "Мета описание"):
+            v = texts.get(k)
+            if isinstance(v, list):
+                v = " ".join(str(x) for x in v if not isinstance(x, bool))
+            v = str(v or "").strip()
+            if v:
+                fixed, _chg = ro.apply_ru_fix(v)
+                fields[k] = fixed
+        # deterministic tail: empiric fields, code strips, tidy, meta caps
+        for k in ("Код", "Цена", "Количество", "Мярка", "Каталожен номер", "Доставчик"):
+            if product.get(k) is not None:
+                fields[k] = product.get(k)
+        fields["Категории"] = v1f.get("Категории") or product.get("Категории")
+        import re as _re
+        _rel = str(v1f.get("Свързани") or product.get("Свързани") or "")
+        _rc = [p.strip().split("|")[0].strip() for p in _re.split(r"[,;]+", _rel)]
+        _rc = [c for c in _rc if c and _re.fullmatch(r"[\w\-\./]+", c) and any(ch.isdigit() for ch in c)]
+        fields["Свързани"] = ", ".join(dict.fromkeys(_rc))
+        fields["Снимки"] = v1f.get("Снимки") or product.get("Снимки") or gt.get("Снимка")
+        try:
+            import catalogue_guard as cg
+            catnums = cg.source_model_codes(stoka)
+            fields["Наименование"] = cg.strip_model_codes(
+                str(fields["Наименование"]), catnums)[0] if catnums else fields["Наименование"]
+        except Exception:
+            pass
+        try:
+            import field_tidy as ft
+            fields, tnotes = ft.tidy(fields)
+            notes += [f"field_tidy:{t}" for t in (tnotes or [])][:4]
+        except Exception:
+            pass
+        for mk, lim in (("Мета наименование", 60), ("Мета описание", 160)):
+            v = str(fields.get(mk) or "")
+            if len(v) > lim:
+                fields[mk] = v[:lim].rsplit(" ", 1)[0].rstrip(" ,;-")
+        # a cross-vertical leaf is often CORRECT (garden furniture lives in the
+        # Furniture vertical) — the mismatch note alone stays for the reviewer, but
+        # only combined with sub-high confidence does it force human review
+        needs_human = (("leaf_branch_mismatch" in notes and confidence != "висока")
+                       or confidence == "ниска" or n_other >= 3)
+        usage = telemetry.summary()
+        rec = {"code": code, "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+               "fields": fields, "confidence": ("high" if confidence == "висока"
+                                                else "medium" if confidence == "средна"
+                                                else "low"),
+               "needs_human": bool(needs_human),
+               "meta": {"pipeline": "v2", "leaf_gid": leaf["gid"],
+                        "leaf_name": leaf["bg"], "leaf_full": leaf["full"],
+                        "notes": notes, "primary_model": model2,
+                        "usage": usage}}
+        with open(ro.RESULTS_PATH, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        db.record_version(rec)
+        try:
+            con = db.connect()
+            con.execute("INSERT OR REPLACE INTO product_taxonomy VALUES (?,?,?,?)",
+                        (code, leaf["gid"], leaf["full"], "v2"))
+            con.commit()
+            con.close()
+        except Exception:
+            pass
+        ro.mark_done(code)
+        ro.log(f"OK {code} in {time.time()-t0:.1f}s (v2, leaf={leaf['bg']}, "
+               f"conf={confidence}, needs_human={needs_human})")
+        return "done"
+    except Exception as e:
+        ro.log(f"FAIL {code} (v2): {str(e)[:120]}")
+        with open(ro.FAILURES_PATH, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"code": code, "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                "error": str(e)[:300], "pipeline": "v2"},
+                               ensure_ascii=False) + "\n")
+        return "failed"

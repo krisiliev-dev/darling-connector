@@ -1,0 +1,594 @@
+[
+  {
+    "bg": "Декорация за дома",
+    "shopify_category": "Home & Garden > Decor",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3",
+    "google_category": "Home & Garden > Decor",
+    "google_id": 696,
+    "note": null
+  },
+  {
+    "bg": "Вази",
+    "shopify_category": "Home & Garden > Decor > Vases",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-67",
+    "google_category": "Home & Garden > Decor > Vases",
+    "google_id": 602,
+    "note": null
+  },
+  {
+    "bg": "Великден",
+    "shopify_category": "Home & Garden > Decor > Seasonal & Holiday Decorations",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-58",
+    "google_category": "Home & Garden > Decor > Seasonal & Holiday Decorations",
+    "google_id": 596,
+    "note": "Easter decor"
+  },
+  {
+    "bg": "Домашни любимци",
+    "shopify_category": "Animals & Pet Supplies > Pet Supplies",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ap-2",
+    "google_category": "Animals & Pet Supplies > Pet Supplies",
+    "google_id": 2,
+    "note": null
+  },
+  {
+    "bg": "Закачалки и шкафове",
+    "shopify_category": "Home & Garden > Decor > Coat & Hat Racks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-18",
+    "google_category": "Home & Garden > Decor > Coat & Hat Racks",
+    "google_id": 5708,
+    "note": "racks lead; cabinets fr-4/6356"
+  },
+  {
+    "bg": "Организация и съхранение",
+    "shopify_category": "Home & Garden > Household Supplies > Storage & Organization",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-16",
+    "google_category": "Home & Garden > Household Supplies > Storage & Organization",
+    "google_id": 636,
+    "note": null
+  },
+  {
+    "bg": "Осветление",
+    "shopify_category": "Home & Garden > Lighting",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-13",
+    "google_category": "Home & Garden > Lighting",
+    "google_id": 594,
+    "note": null
+  },
+  {
+    "bg": "Свещи и аромати",
+    "shopify_category": "Home & Garden > Decor > Home Fragrances",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-40",
+    "google_category": "Home & Garden > Decor > Home Fragrances",
+    "google_id": 592,
+    "note": "candles hg-3-40-2"
+  },
+  {
+    "bg": "Стенни декорации",
+    "shopify_category": "Home & Garden > Decor > Artwork",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-4",
+    "google_category": "Home & Garden > Decor > Artwork",
+    "google_id": 9,
+    "note": "wall decor -> Artwork"
+  },
+  {
+    "bg": "Стълби",
+    "shopify_category": "Hardware > Tools > Ladders & Scaffolding > Ladders > Step Ladders",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ha-15-27-2-3",
+    "google_category": "Hardware > Tools > Ladders & Scaffolding > Ladders",
+    "google_id": 6928,
+    "note": "step ladders"
+  },
+  {
+    "bg": "Текстил и килими",
+    "shopify_category": "Home & Garden > Decor > Rugs",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-57",
+    "google_category": "Home & Garden > Decor > Rugs",
+    "google_id": 598,
+    "note": "rugs lead; textiles hg-15"
+  },
+  {
+    "bg": "За банята",
+    "shopify_category": "Home & Garden > Bathroom Accessories",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-1",
+    "google_category": "Home & Garden > Bathroom Accessories",
+    "google_id": 574,
+    "note": null
+  },
+  {
+    "bg": "Аксесоари за баня",
+    "shopify_category": "Home & Garden > Bathroom Accessories > Bathroom Accessory Sets",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-1-5",
+    "google_category": "Home & Garden > Bathroom Accessories > Bathroom Accessory Sets",
+    "google_id": 6858,
+    "note": null
+  },
+  {
+    "bg": "Кошове и панери за дрехи",
+    "shopify_category": "Home & Garden > Household Supplies > Laundry Supplies > Laundry Hampers",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-9-22",
+    "google_category": "Home & Garden > Household Supplies > Laundry Supplies > Laundry Baskets",
+    "google_id": 634,
+    "note": "Google -> Laundry Baskets"
+  },
+  {
+    "bg": "Кошчета и четки за тоалетна",
+    "shopify_category": "Home & Garden > Bathroom Accessories > Toilet Brushes & Holders",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-1-18",
+    "google_category": "Home & Garden > Bathroom Accessories > Toilet Brushes & Holders",
+    "google_id": 583,
+    "note": null
+  },
+  {
+    "bg": "Маси за гладене",
+    "shopify_category": "Home & Garden > Household Supplies > Laundry Supplies > Ironing Boards",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-9-14",
+    "google_category": "Home & Garden > Household Supplies > Laundry Supplies > Ironing Boards",
+    "google_id": 633,
+    "note": null
+  },
+  {
+    "bg": "Поставки и държачи за тоалетна хартия",
+    "shopify_category": "Home & Garden > Bathroom Accessories > Toilet Paper Holders",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-1-19",
+    "google_category": "Home & Garden > Bathroom Accessories > Toilet Paper Holders",
+    "google_id": 584,
+    "note": null
+  },
+  {
+    "bg": "Стелки и завеси за баня",
+    "shopify_category": "Home & Garden > Bathroom Accessories > Bath Mats & Rugs",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-1-2",
+    "google_category": "Home & Garden > Bathroom Accessories > Bath Mats & Rugs",
+    "google_id": 577,
+    "note": "mats + curtains hg-1-13/580"
+  },
+  {
+    "bg": "Сушилници и етажерки",
+    "shopify_category": "Home & Garden > Household Supplies > Laundry Supplies > Drying Racks & Hangers > Drying Racks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-9-4-2",
+    "google_category": "Home & Garden > Household Supplies > Laundry Supplies > Drying Racks & Hangers",
+    "google_id": 2677,
+    "note": "drying racks"
+  },
+  {
+    "bg": "За градината",
+    "shopify_category": "Home & Garden > Lawn & Garden",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-12",
+    "google_category": "Home & Garden > Lawn & Garden",
+    "google_id": 689,
+    "note": null
+  },
+  {
+    "bg": "Градинска мебел",
+    "shopify_category": "Furniture > Outdoor Furniture",
+    "shopify_id": "gid://shopify/TaxonomyCategory/fr-15",
+    "google_category": "Furniture > Outdoor Furniture",
+    "google_id": 4299,
+    "note": null
+  },
+  {
+    "bg": "Градински инструменти",
+    "shopify_category": "Home & Garden > Lawn & Garden > Gardening > Gardening Tools",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-12-1-7",
+    "google_category": "Home & Garden > Lawn & Garden > Gardening > Gardening Tools",
+    "google_id": 3173,
+    "note": null
+  },
+  {
+    "bg": "Градинско осветление",
+    "shopify_category": "Home & Garden > Lighting > Landscape Pathway Lighting",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-13-6",
+    "google_category": "Home & Garden > Lighting > Landscape Pathway Lighting",
+    "google_id": 7400,
+    "note": "outdoor lighting nearest"
+  },
+  {
+    "bg": "Декорация за градината",
+    "shopify_category": "Home & Garden > Decor > Lawn Ornaments & Garden Sculptures",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-43",
+    "google_category": "Home & Garden > Decor > Lawn Ornaments & Garden Sculptures",
+    "google_id": 6547,
+    "note": null
+  },
+  {
+    "bg": "Къмпинг",
+    "shopify_category": "Sporting Goods > Outdoor Recreation > Camping & Hiking",
+    "shopify_id": "gid://shopify/TaxonomyCategory/sg-4-2",
+    "google_category": "Sporting Goods > Outdoor Recreation > Camping & Hiking",
+    "google_id": 1013,
+    "note": null
+  },
+  {
+    "bg": "Пепелници",
+    "shopify_category": "Home & Garden > Smoking Accessories > Ashtrays",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-19-1",
+    "google_category": "Home & Garden > Smoking Accessories > Ashtrays",
+    "google_id": 4082,
+    "note": null
+  },
+  {
+    "bg": "Саксии и цветарници",
+    "shopify_category": "Home & Garden > Lawn & Garden > Gardening > Pots & Planters",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-12-1-16",
+    "google_category": "Home & Garden > Lawn & Garden > Gardening > Pots & Planters",
+    "google_id": 721,
+    "note": null
+  },
+  {
+    "bg": "Скари и барбекюта",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Kitchen Appliances > Outdoor Grills",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-7-34",
+    "google_category": "Home & Garden > Kitchen & Dining > Kitchen Appliances > Outdoor Grills",
+    "google_id": 2985,
+    "note": null
+  },
+  {
+    "bg": "За деца",
+    "shopify_category": "Baby & Toddler",
+    "shopify_id": "gid://shopify/TaxonomyCategory/bt",
+    "google_category": "Baby & Toddler",
+    "google_id": 537,
+    "note": "kids parent"
+  },
+  {
+    "bg": "За деца -> За банята",
+    "shopify_category": "Baby & Toddler > Baby Bathing",
+    "shopify_id": "gid://shopify/TaxonomyCategory/bt-1",
+    "google_category": "Baby & Toddler > Baby Bathing",
+    "google_id": 4678,
+    "note": null
+  },
+  {
+    "bg": "За деца -> За кухнята",
+    "shopify_category": "Baby & Toddler > Nursing & Feeding > Feeding Essentials",
+    "shopify_id": "gid://shopify/TaxonomyCategory/bt-10-16",
+    "google_category": "Baby & Toddler > Nursing & Feeding",
+    "google_id": 561,
+    "note": "kids feeding"
+  },
+  {
+    "bg": "Табуретки, маси и столчета",
+    "shopify_category": "Furniture > Baby & Toddler Furniture > Kids Tables & Chair Sets",
+    "shopify_id": "gid://shopify/TaxonomyCategory/fr-1-10",
+    "google_category": "Furniture > Tables > Activity Tables",
+    "google_id": 6351,
+    "note": "kids tables/chairs"
+  },
+  {
+    "bg": "За кухнята",
+    "shopify_category": "Home & Garden > Kitchen & Dining",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11",
+    "google_category": "Home & Garden > Kitchen & Dining",
+    "google_id": 638,
+    "note": null
+  },
+  {
+    "bg": "BONNA - порцелан",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Tableware > Dinnerware",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-10-4",
+    "google_category": "Home & Garden > Kitchen & Dining > Tableware > Dinnerware",
+    "google_id": 673,
+    "note": "porcelain -> Dinnerware"
+  },
+  {
+    "bg": "Аксесоари за кухнята",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-8",
+    "google_category": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils",
+    "google_id": 668,
+    "note": null
+  },
+  {
+    "bg": "Буркани",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Food Storage > Food Storage Containers",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-4-6",
+    "google_category": "Home & Garden > Kitchen & Dining > Food Storage > Food Storage Containers",
+    "google_id": 667,
+    "note": "jars"
+  },
+  {
+    "bg": "Оливерници, пиперници, солници",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Tableware > Condiment Shakers",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-10-3",
+    "google_category": "Home & Garden > Kitchen & Dining > Tableware > Salt & Pepper Shakers",
+    "google_id": 676,
+    "note": "cruets hg-11-8/6526"
+  },
+  {
+    "bg": "Покривки и подложки",
+    "shopify_category": "Home & Garden > Linens & Bedding > Table Linens",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-15-3",
+    "google_category": "Home & Garden > Linens & Bedding > Table Linens",
+    "google_id": 601,
+    "note": "tablecloths+placemats"
+  },
+  {
+    "bg": "Прибори и дъски",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-8",
+    "google_category": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils",
+    "google_id": 668,
+    "note": "boards hg-11-8-21/666"
+  },
+  {
+    "bg": "Сладкарство",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Bakeware",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-2-1",
+    "google_category": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Bakeware",
+    "google_id": 640,
+    "note": "baking"
+  },
+  {
+    "bg": "Сушилници",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Dish Racks & Drain Boards > Dish Racks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-8-22-1",
+    "google_category": "Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Dish Racks & Drain Boards",
+    "google_id": 3268,
+    "note": "dish racks"
+  },
+  {
+    "bg": "Съдове за готвене",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-2-3",
+    "google_category": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware",
+    "google_id": 654,
+    "note": null
+  },
+  {
+    "bg": "Съдове за съхранение и купи",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Food Storage > Food Storage Containers",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-4-6",
+    "google_category": "Home & Garden > Kitchen & Dining > Food Storage > Food Storage Containers",
+    "google_id": 667,
+    "note": "containers+bowls"
+  },
+  {
+    "bg": "Термо чанти, термо кутии, термоси",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Food & Beverage Carriers",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-3",
+    "google_category": "Home & Garden > Kitchen & Dining > Food & Beverage Carriers",
+    "google_id": 2920,
+    "note": "insulated"
+  },
+  {
+    "bg": "Троянска керамика и сачове",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware > Tagines & Clay Cooking Pots > Clay Cooking Pots",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-2-3-16-1",
+    "google_category": "Home & Garden > Kitchen & Dining > Cookware & Bakeware > Cookware > Tagines & Clay Cooking Pots",
+    "google_id": 5340,
+    "note": "clay pots; decor -> Dinnerware 673"
+  },
+  {
+    "bg": "Фруктиери, панери, кутии за хляб",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Food Storage",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-4",
+    "google_category": "Home & Garden > Kitchen & Dining > Food Storage",
+    "google_id": 2626,
+    "note": "bread bins; fruit bowls serveware"
+  },
+  {
+    "bg": "Чайници и термо кани",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Tableware > Coffee Servers & Teapots",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-10-2",
+    "google_category": "Home & Garden > Kitchen & Dining > Tableware > Coffee Servers & Tea Pots",
+    "google_id": 652,
+    "note": "teapots; carafes airpots"
+  },
+  {
+    "bg": "Чаши, кани и бутилки",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Tableware > Drinkware",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-10-5",
+    "google_category": "Home & Garden > Kitchen & Dining > Tableware > Drinkware",
+    "google_id": 674,
+    "note": "cups/jugs/bottles"
+  },
+  {
+    "bg": "Чинии, плата",
+    "shopify_category": "Home & Garden > Kitchen & Dining > Tableware > Dinnerware > Plates",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-11-10-4-3",
+    "google_category": "Home & Garden > Kitchen & Dining > Tableware > Dinnerware > Plates",
+    "google_id": 3553,
+    "note": "plates; platters serveware 3802"
+  },
+  {
+    "bg": "За почистване",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies",
+    "google_id": 623,
+    "note": null
+  },
+  {
+    "bg": "Кофи и легени",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Buckets",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6-4",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Buckets",
+    "google_id": 6437,
+    "note": "buckets+basins"
+  },
+  {
+    "bg": "Кошове за отпадъци",
+    "shopify_category": "Home & Garden > Household Supplies > Waste Containment > Trash Cans & Wastebaskets",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-18-4",
+    "google_category": "Home & Garden > Household Supplies > Waste Containment > Trash Cans & Wastebaskets",
+    "google_id": 637,
+    "note": null
+  },
+  {
+    "bg": "Кърпи",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Shop Towels & General-Purpose Cleaning Cloths",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6-16",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Shop Towels & General-Purpose Cleaning Cloths",
+    "google_id": 8071,
+    "note": "cloths"
+  },
+  {
+    "bg": "Метли и четки",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Brooms",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6-3",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Brooms",
+    "google_id": 2857,
+    "note": "brooms; brushes 4670"
+  },
+  {
+    "bg": "Мопове",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Mops",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6-13",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Mops",
+    "google_id": 2713,
+    "note": null
+  },
+  {
+    "bg": "Парти украса",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Party Supplies",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-2",
+    "google_category": "Arts & Entertainment > Party & Celebration > Party Supplies",
+    "google_id": 96,
+    "note": null
+  },
+  {
+    "bg": "Балони и конфети",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Party Supplies > Balloons",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-2-3",
+    "google_category": "Arts & Entertainment > Party & Celebration > Party Supplies > Balloons",
+    "google_id": 2587,
+    "note": "balloons; confetti ae-3-2-8/2781"
+  },
+  {
+    "bg": "Декорации за маса",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Party Supplies",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-2",
+    "google_category": "Arts & Entertainment > Party & Celebration > Party Supplies",
+    "google_id": 96,
+    "note": "table decor"
+  },
+  {
+    "bg": "Парти аксесоари",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Party Supplies",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-2",
+    "google_category": "Arts & Entertainment > Party & Celebration > Party Supplies",
+    "google_id": 96,
+    "note": null
+  },
+  {
+    "bg": "Покани и картички",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Party Supplies > Invitations",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-2-16",
+    "google_category": "Arts & Entertainment > Party & Celebration > Party Supplies > Invitations",
+    "google_id": 1371,
+    "note": "invitations; cards Google 95"
+  },
+  {
+    "bg": "Тематични комплекти",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Party Supplies > Party Supply Kits",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-2-22",
+    "google_category": "Arts & Entertainment > Party & Celebration > Party Supplies > Party Supply Kits",
+    "google_id": 502972,
+    "note": null
+  },
+  {
+    "bg": "Подаръци",
+    "shopify_category": "Arts & Entertainment > Party & Celebration > Gift Giving",
+    "shopify_id": "gid://shopify/TaxonomyCategory/ae-3-1",
+    "google_category": "Arts & Entertainment > Party & Celebration > Gift Giving",
+    "google_id": 2559,
+    "note": "gifts"
+  },
+  {
+    "bg": "Препарати",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Household Cleaning Products",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6-11",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Household Cleaning Products",
+    "google_id": 4973,
+    "note": null
+  },
+  {
+    "bg": "Ароматизатори",
+    "shopify_category": "Home & Garden > Decor > Home Fragrances > Air Fresheners",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-40-1",
+    "google_category": "Home & Garden > Decor > Home Fragrances > Air Fresheners",
+    "google_id": 3898,
+    "note": null
+  },
+  {
+    "bg": "Мокри кърпи",
+    "shopify_category": "Health & Beauty > Personal Care > Cosmetics > Bath & Body > Hygienic Wipes",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hb-3-2-1-7",
+    "google_category": "Health & Beauty > Personal Care > Cosmetics > Bath & Body",
+    "google_id": 474,
+    "note": "wet wipes -> parent"
+  },
+  {
+    "bg": "Почистващи препарати",
+    "shopify_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Household Cleaning Products",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-6-11",
+    "google_category": "Home & Garden > Household Supplies > Household Cleaning Supplies > Household Cleaning Products",
+    "google_id": 4973,
+    "note": null
+  },
+  {
+    "bg": "Прахове и омекотители",
+    "shopify_category": "Home & Garden > Household Supplies > Laundry Supplies > Laundry Detergent",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-10-9-17",
+    "google_category": "Home & Garden > Household Supplies > Laundry Supplies > Laundry Detergent",
+    "google_id": 2754,
+    "note": "detergent; softeners hg-10-9-7/2794"
+  },
+  {
+    "bg": "Сапуни, шампоани и душ гелове",
+    "shopify_category": "Health & Beauty > Personal Care > Cosmetics > Bath & Body",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hb-3-2-1",
+    "google_category": "Health & Beauty > Personal Care > Cosmetics > Bath & Body",
+    "google_id": 474,
+    "note": "soap/body wash; shampoo Google 543615"
+  },
+  {
+    "bg": "Часовници и будилници",
+    "shopify_category": "Home & Garden > Decor > Clocks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-17",
+    "google_category": "Home & Garden > Decor > Clocks",
+    "google_id": 3890,
+    "note": null
+  },
+  {
+    "bg": "Будилници",
+    "shopify_category": "Home & Garden > Decor > Clocks > Alarm Clocks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-17-1",
+    "google_category": "Home & Garden > Decor > Clocks > Alarm Clocks",
+    "google_id": 4546,
+    "note": null
+  },
+  {
+    "bg": "Луксозни и дизайнерски часовници",
+    "shopify_category": "Home & Garden > Decor > Clocks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-17",
+    "google_category": "Home & Garden > Decor > Clocks",
+    "google_id": 3890,
+    "note": "-> Clocks parent"
+  },
+  {
+    "bg": "Настолни часовници",
+    "shopify_category": "Home & Garden > Decor > Clocks > Desk & Shelf Clocks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-17-2",
+    "google_category": "Home & Garden > Decor > Clocks > Desk & Shelf Clocks",
+    "google_id": 6912,
+    "note": null
+  },
+  {
+    "bg": "Стенни часовници",
+    "shopify_category": "Home & Garden > Decor > Clocks > Wall Clocks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-17-4",
+    "google_category": "Home & Garden > Decor > Clocks > Wall Clocks",
+    "google_id": 3840,
+    "note": null
+  },
+  {
+    "bg": "Часовници за деца",
+    "shopify_category": "Home & Garden > Decor > Clocks",
+    "shopify_id": "gid://shopify/TaxonomyCategory/hg-3-17",
+    "google_category": "Home & Garden > Decor > Clocks",
+    "google_id": 3890,
+    "note": "-> Clocks parent"
+  }
+]

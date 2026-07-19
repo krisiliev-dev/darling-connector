@@ -1,0 +1,4 @@
+  File "C:\Users\lora_\Desktop\product-review\agent-pipeline\review_recent.py", line 32
+    if r.get('error'): o.write(f'  {r[\"code\"]}: ERROR {r[\"error\"]}\n'); continue
+                                                                         ^
+SyntaxError: f-string expression part cannot include a backslash

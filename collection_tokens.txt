@@ -1,0 +1,60 @@
+# Series / collection / pattern / style / city tokens that appear in the
+# BRAND slot of mira-n source names but are NOT manufacturer brands
+# (LLM-classified, human-reviewable). The guard drops one of these from
+# Бранд and strips it from the TITLE (Наименование, Мета наименование) while
+# KEEPING it in the description. Gazetteer brands always win first. One/line.
+ALOHA
+ANETT
+ANTIQUE
+BAKERY
+BARTENDER
+BARWARE
+BELEK
+BELIZE
+BUTIK
+CARRE
+CERAMICA
+CESME
+CHURRASCO
+CLASSIC
+COCONUT
+CONCEPT
+COPPER
+DAISY
+DEFNE
+DELIGHT
+DIAMOND
+EASY
+ELEMENTOS
+FRIENDLY
+GRANIT
+GRANITE
+HORECA
+JAVA
+JAY
+MONACO
+MULTI
+OUTPERFORM
+PARIS
+PARMA
+PERFECT
+PERFORMA
+PLANET
+PREMIER
+PREMIUM
+PROFESSIONAL
+RESTAURANT
+RETRO
+RIO
+SARAH
+SAVILLA
+SIERRA
+SONIA
+SYDNEY
+TANGO
+TERRA
+TOLEDO
+TOP
+VINTAGE
+VISION
+WICKED

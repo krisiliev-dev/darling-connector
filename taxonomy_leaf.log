@@ -1,0 +1,36 @@
+135 canonical types, 135 to map
+  batch 1/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 2/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 3/17: 0/8 mapped (glm-4.7-flash)
+  batch 4/17: 0/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 5/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 6/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 7/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 8/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 9/17: 0/8 mapped (glm-4.7-flash)
+  batch 10/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 11/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 12/17: 0/8 mapped (glm-4.7-flash)
+  batch 13/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 14/17: 0/8 mapped (glm-4.7-flash)
+  batch 15/17: 0/8 mapped (glm-4.7-flash)
+  batch 16/17: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 17/17: 0/7 mapped (glm-4.7-flash)
+DONE: 35/80 types mapped to leaves -> canon_leaf_map.json
+135 canonical types, 55 to map
+  batch 1/7: 0/8 mapped (glm-4.7-flash)
+  batch 2/7: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 2: LLM failed Connection error.
+  batch 4/7: 0/8 mapped (glm-4.7-flash)
+  batch 5/7: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 6/7: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 7/7: 7/7 mapped (qwen/qwen3.5-397b-a17b)
+DONE: 53/111 types mapped to leaves -> canon_leaf_map.json
+135 canonical types, 24 to map
+  batch 1/3: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 2/3: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+  batch 3/3: 8/8 mapped (qwen/qwen3.5-397b-a17b)
+DONE: 62/135 types mapped to leaves -> canon_leaf_map.json
+135 canonical types, 0 to map
+DONE: 62/135 types mapped to leaves -> canon_leaf_map.json
+assigned: 3146 via type-leaf, 5573 via category fallback, 4 unassigned

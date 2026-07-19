@@ -1,0 +1,17 @@
+# large data / binaries — not versioned
+*.db
+*.db.*
+*.sqlite*
+*.jsonl
+__pycache__/
+*.pyc
+shopify_taxonomy/*.json
+shopify_taxonomy/*.yml
+*.xlsx
+*.png
+*.jpg
+*.jpeg
+.reprocess_shards/
+.taxonomy_build.lock
+.reprocess.lock
+tool-results/

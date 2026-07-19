@@ -1,0 +1,13 @@
+reviewing 8 of the most-recent 40 products...
+[1/8] 017438
+[2/8] 018569
+[3/8] 0126288
+[4/8] 014804
+[5/8] 01981571
+[6/8] 018305
+[7/8] 0156180
+[8/8] 0142378
+
+report -> C:\Users\lora_\Desktop\product-review\agent-pipeline\review_report.md
+apply_fixes: appended 3 corrected versions -> results.lanez_review.jsonl (pre-fix version preserved); 7 proposals -> review_fixes.jsonl
+done

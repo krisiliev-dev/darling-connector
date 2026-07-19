@@ -1,0 +1,19 @@
+[2026-07-16T14:02:50] Processing 200102 (agentic, attempt 1)
+[2026-07-16T14:06:59] OK 200102 in 247.0s (agentic, conf=high, needs_human=False, tools=analyze_image,fetch_url,find_related,lookup_brand,verify_brand,web_search)
+200102 -> done
+[2026-07-16T14:06:59] Processing 190246 (agentic, attempt 1)
+[2026-07-16T14:07:42] OK 190246 in 42.7s (agentic, conf=high, needs_human=False, tools=analyze_image,fetch_url,find_related,lookup_brand,verify_brand,web_search)
+190246 -> done
+[2026-07-16T14:07:42] Processing 200609 (agentic, attempt 1)
+[2026-07-16T14:08:35] OK 200609 in 53.1s (agentic, conf=high, needs_human=False, tools=analyze_image,fetch_url,find_related,lookup_brand,web_search)
+200609 -> done
+[2026-07-16T14:08:35] Processing 0114148 (agentic, attempt 1)
+[2026-07-16T14:09:33] OK 0114148 in 57.9s (agentic, conf=high, needs_human=False, tools=analyze_image,fetch_url,find_related,lookup_brand,verify_brand,web_search)
+0114148 -> done
+[2026-07-16T14:09:33] Processing 1535 (agentic, attempt 1)
+[2026-07-16T14:11:16] OK 1535 in 102.1s (agentic, conf=high, needs_human=False, tools=analyze_image,fetch_url,lookup_brand,verify_brand,web_search)
+1535 -> done
+[2026-07-16T14:11:16] Processing 018831 (agentic, attempt 1)
+[2026-07-16T14:11:55] OK 018831 in 39.4s (agentic, conf=high, needs_human=False, tools=analyze_image,fetch_url,find_related,lookup_brand,web_search)
+018831 -> done
+done

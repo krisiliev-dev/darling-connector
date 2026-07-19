@@ -1,0 +1,53 @@
+  [7] confirmed 7 / moved 0 (glm-4.7-flash)
+  [9] confirmed 9 / moved 0 (qwen/qwen3.5-397b-a17b)
+  [11] confirmed 11 / moved 0 (qwen/qwen3.5-397b-a17b)
+  [21] confirmed 21 / moved 0 (qwen/qwen3.5-397b-a17b)
+  [33] confirmed 32 / moved 1 (qwen/qwen3.5-397b-a17b)
+  [45] confirmed 44 / moved 1 (glm-4.7-flash)
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  LLM failed: Connection error.
+  [47] confirmed 44 / moved 3 (meta-llama/llama-4-scout-17b-16e-instruct)
+  [48] confirmed 45 / moved 3 (qwen/qwen3.5-397b-a17b)
+  [52] confirmed 45 / moved 7 (meta-llama/llama-4-scout-17b-16e-instruct)
+  [53] confirmed 46 / moved 7 (meta-llama/llama-4-scout-17b-16e-instruct)
+  [54] confirmed 47 / moved 7 (qwen/qwen3.5-397b-a17b)
+  [55] confirmed 48 / moved 7 (qwen/qwen3.5-397b-a17b)
+  [56] confirmed 48 / moved 8 (meta-llama/llama-4-scout-17b-16e-instruct)
+  [64] confirmed 56 / moved 8 (glm-4.7-flash)

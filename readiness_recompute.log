@@ -1,0 +1,19 @@
+=== LAUNCH READINESS (of 6319 enriched; 7840 not yet enriched) ===
+READY for Shopify: 1519 (24%)
+NOT ready: 4800
+
+Top blockers (products missing each requirement):
+  image             4366 (69%)
+  price              807 (12%)
+  brand              629 (9%)
+  not_flagged        345 (5%)
+  no_fabrication     139 (2%)
+  attributes          34 (0%)
+
+Products by # of blockers:
+  missing 1: 3564
+  missing 2: 986
+  missing 3: 216
+  missing 4: 34
+
+persisted readiness for 6319 products -> DB table launch_readiness

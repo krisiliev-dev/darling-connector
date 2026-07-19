@@ -1,0 +1,3 @@
+tidied 1786/3720 finished products -> results.lanez_tidy.jsonl
+by change type: {'units': 4165, 'related': 871, 'syn_material': 25, 'brand_marker': 4, 'name_brand_synced': 4}
+REVERT with: rm results.lanez_tidy.jsonl
