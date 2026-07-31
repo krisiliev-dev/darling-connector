@@ -1,0 +1,47 @@
+2.6.4. Интеграция на barsy с други системи и модули — Документация barsy 3.0
+
+ 2. Работа с администрация
+
+ 2.6. Настройки
+
+ 2.6.4. Интеграция на barsy с други системи и модули
+
+ 2.6.4. Интеграция на barsy с други системи и модули 
+
+ Първи стъпки за изграждане на интеграция между барси и външна система.
+
+ Интеграция Clock Software и Barsy
+
+ Интеграция RhinoCMS и Barsy
+
+ Интеграция Priority и Barsy
+
+ Интеграция SAP и Barsy
+
+ Интеграция BlackSeaRama и Barsy
+
+ Интеграция Metro и Barsy
+
+ Интеграция SisTechnology и Barsy
+
+ Интеграция Creato Solutions и Barsy
+
+ Интеграция Zeron и Barsy
+
+ Интеграция на SelfiPay и barsy
+
+ Интеграция OTA Sync и Barsy
+
+ Интеграция Inntelligent и Barsy
+
+ Интеграция на Barsy с WooCommerce
+
+ Синхронизация на клиенти с Mailchimp
+
+ Интеграция Common Provider и Barsy
+
+ Интеграция Pricer и Barsy
+
+ Интеграция SumUp и barsy
+
+ Интеграция с търговски вериги през EDI (Comarch / Елтрейд)

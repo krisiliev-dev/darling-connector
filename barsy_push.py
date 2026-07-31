@@ -42,8 +42,16 @@ LANG = "bg_BG"
 
 
 def _catalog():
-    """Live {code: article} map of everything currently in Barsy (by business code)."""
-    arts = b.call("Articles_getlist", {"filters": {}})
+    """Live {code: article} map of everything currently in Barsy (by business code).
+
+    Fetched under the ONLINE delivery channel ("address") with current_price requested, so each
+    article carries BOTH `actual_price` (base) and `current_price` (the price under the online
+    channel, reflecting any active Barsy Pricelists rule scoped to online). The filter annotates
+    pricing context only — it returns the identical article set as an unfiltered fetch (verified).
+    Consumers that publish to the storefront use current_price (see connector `_price`); with no
+    online rule the two are equal, so this is a no-op until the owner sets channel pricing."""
+    arts = b.call("Articles_getlist", {"filters": {"delivery_type_id": "address"},
+                                        "extra_properties": {"current_price": 1, "extra_data": 1}})
     return {str(a["code"]): a for a in arts if a.get("code")}
 
 
@@ -141,7 +149,9 @@ def build(code, catalog, bc, ensure_cat=False):
         art["article_name"] = name
         art["article_name_ml"] = {LANG: name}          # Barsy stores ml as a lang-keyed map
     if barcodes:
-        art["barcode"] = barcodes                      # ArticleInputData accepts an array
+        # Barsy Articles_create/_update want a SINGLE barcode STRING, not an array — sending a
+        # list 500s the API ("непредвидена грешка"). Use the primary GS1 barcode. (owner 2026-07-20)
+        art["barcode"] = barcodes[0]
     details = _details(fields)
     if details:
         art["details"] = details
@@ -153,6 +163,32 @@ def build(code, catalog, bc, ensure_cat=False):
     aliases = [s.strip() for s in str(fields.get("Синоними") or "").split(",") if s.strip()]
     if aliases:
         art["article_aliases"] = aliases
+
+    # Mira-N products are made-to-order (sourced from the supplier on demand) → sellable at 0 stock.
+    # Store the policy IN Barsy via sale_below_zero (YES/NO/DEF) so Barsy is the single source of
+    # truth; the Shopify connector reads it to set the inventory policy. (owner 2026-07-20)
+    if "мира" in str(fields.get("Доставчик") or "").lower() \
+            or "mira-n.net" in str(fields.get("Снимки") or "").lower():
+        art["sale_below_zero"] = "YES"
+
+    # Meta (SEO) title/description + weight + variant grouping have NO native Barsy field, so they
+    # live in the free-form `extra_data` OBJECT (owner 2026-07-20; read back via
+    # extra_properties:{extra_data:1}). Keeps Barsy the single source of truth for them.
+    extra = {}
+    _mt = str(fields.get("Мета наименование") or "").strip()
+    _md = str(fields.get("Мета описание") or "").strip()
+    _wt = str(fields.get("Тегло (кг)") or "").strip()
+    _sv = str(fields.get("Свързани") or "").strip()
+    if _mt:
+        extra["seo_title"] = _mt
+    if _md:
+        extra["seo_description"] = _md
+    if _wt:
+        extra["weight_kg"] = _wt
+    if _sv:                                            # variant/connected product codes (grouping)
+        extra["variant_codes"] = [p.split("|", 1)[0].strip() for p in _sv.split(";") if p.strip()]
+    if extra:
+        art["extra_data"] = extra
 
     try:
         import barsy_collect as bcol
@@ -169,6 +205,9 @@ def build(code, catalog, bc, ensure_cat=False):
         # enrich-in-place: only fill Barsy gaps, never clobber a populated field
         if existing.get("barcode"):
             art.pop("barcode", None)
+        # aliases/synonyms are attached once at create; re-sending an already-attached synonym
+        # 501s ("вече е прикачен към артикул") and would loop forever on every run. Drop on update.
+        art.pop("article_aliases", None)
         if not existing.get("description") and desc:
             art["description_ml"] = {LANG: desc}
         # Articles_update wants article_id at TOP level (not inside `article`)
@@ -205,17 +244,29 @@ def push_one(code, catalog=None, bc=None, images=True):
     return mode, aid
 
 
+PROCESSED_DIR = Path(__file__).parent.parent / "image-pipeline" / "processed"
+
+
+def _processed_images(code, max_images=6):
+    """The PROCESSED cutouts for a code: image-pipeline/processed/<code>.png (+ <code>_N.png
+    for extra views). This is the ONLY image source we publish."""
+    return (sorted(PROCESSED_DIR.glob(f"{code}.png")) +
+            sorted(PROCESSED_DIR.glob(f"{code}_*.png")))[:max_images]
+
+
 def push_images(code, article_id, max_images=6):
-    """Download a product's images (the Снимки supplier URLs) and upload them to the Barsy
-    article as PICTURE files (Barsy resizes + sets article.picture). Returns (uploaded, err).
-    Idempotent-ish: skips names already present on the article."""
-    import urllib.request
-    import re as _re
-    fields, _ = _fields(code)
-    urls = [u.strip() for u in _re.split(r"[,\s]+", str(fields.get("Снимки") or ""))
-            if u.strip().startswith("http")][:max_images]
-    if not urls:
-        return 0, None
+    """Upload the product's PROCESSED images to the Barsy article as PICTURE files (Barsy
+    resizes + sets article.picture). Returns (uploaded, err).
+
+    Owner 2026-07-20: publish ONLY our processed cutouts (image-pipeline/processed/<code>*.png),
+    NEVER the raw supplier scrape. If no processed image exists we upload nothing (return a
+    marker) rather than fall back to the supplier URL — a product without a processed image is
+    not ready to show. QC-failed cutouts don't reach here: they're flagged needs_human upstream,
+    so they never get approved/pushed.
+    Idempotent-ish: skips filenames already present on the article."""
+    files = _processed_images(code, max_images)
+    if not files:
+        return 0, "no_processed_image"
     try:
         have = {f.get("name") for f in b.call("Files_getlist",
                 {"obj_type": "articles", "obj_id": str(article_id)})}
@@ -223,17 +274,12 @@ def push_images(code, article_id, max_images=6):
         have = set()
     up = 0
     err = None
-    for i, url in enumerate(urls):
-        fn = url.rsplit("/", 1)[-1].split("?")[0] or f"img{i}.jpg"
-        if not _re.search(r"\.(jpe?g|png|webp|gif)$", fn, _re.I):
-            fn += ".jpg"
+    for p in files:
+        fn = p.name
         if fn in have:
             continue
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=30) as r:
-                img = r.read()
-            b.upload_image(article_id, img, fn)
+            b.upload_image(article_id, p.read_bytes(), fn)
             up += 1
         except Exception as e:
             err = f"{fn}: {str(e)[:80]}"

@@ -91,7 +91,7 @@ WORKER_CHAIN = [
     # --- DashScope: fresh free grants (700k hard cap each) ---
     ["-m", "qwen-plus-character", "--provider", "dashscope-intl"],
     ["-m", "qwen-plus-latest", "--provider", "dashscope-intl"],
-    ["-m", "qwen-plus-2025-01-25", "--provider", "dashscope-intl"],
+    # qwen-plus-2025-01-25 REMOVED (owner 2026-07-19: NO free quota — see NEVER_CALL)
     ["-m", "qwen3.6-plus-2026-04-02", "--provider", "dashscope-intl"],
     ["-m", "qwen3.6-plus", "--provider", "dashscope-intl"],
     ["-m", "qwen3.5-plus-2026-04-20", "--provider", "dashscope-intl"],
@@ -108,6 +108,23 @@ WORKER_CHAIN = [
     ["-m", "qwen3.7-max", "--provider", "dashscope-intl"],
     ["-m", "qwen3.7-max-2026-06-08", "--provider", "dashscope-intl"],
     ["-m", "qwen3.7-max-2026-05-20", "--provider", "dashscope-intl"],
+    # --- DashScope: MORE free-grant models (owner 2026-07-20: 62 qwen chat models exist, tap
+    #     the unused ones — each is its own ~700k free grant; the cap + exhausted-cache guard). ---
+    ["-m", "qwen-flash", "--provider", "dashscope-intl"],
+    ["-m", "qwen-max", "--provider", "dashscope-intl"],
+    ["-m", "qwen-plus", "--provider", "dashscope-intl"],
+    ["-m", "qwen-plus-2025-07-14", "--provider", "dashscope-intl"],
+    ["-m", "qwen-plus-2025-04-28", "--provider", "dashscope-intl"],
+    ["-m", "qwen-turbo", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-next-80b-a3b-instruct", "--provider", "dashscope-intl"],
+    ["-m", "qwen3.5-397b-a17b", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-235b-a22b-instruct-2507", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-235b-a22b", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-32b", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-30b-a3b-instruct-2507", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-30b-a3b", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-14b", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-8b", "--provider", "dashscope-intl"],
     # --- DashScope: BILLED workhorses (spend-capped; newest first) ---
     ["-m", "qwen3.7-plus-2026-05-26", "--provider", "dashscope-intl"],
     ["-m", "qwen-plus-2025-12-01", "--provider", "dashscope-intl"],
@@ -115,9 +132,13 @@ WORKER_CHAIN = [
     # exhaustion, before moving to the next provider (owner 2026-07-18). DashScope OFF
     # (arrearage). Cross-provider order by quality+reliability: Mistral (frontier) → Groq
     # (fast, large) → zai → Cerebras → NVIDIA → Cohere. All model names probed live. ---
-    ["-m", "mistral-medium-2508", "--provider", "mistral"],   # Medium-3: newer/faster, frontier-class
-    ["-m", "mistral-large-latest", "--provider", "mistral"],  # bigger fallback if medium throttles
-    ["-m", "mistral-small-latest", "--provider", "mistral"],
+    # Mistral RE-ENABLED 2026-07-20 with a fresh working key (z32mAy…). Free "Experiment" tier
+    # covers ALL models at $0 under the shared ~1B/month pool → these are FREE; the 975M provider
+    # cap (MISTRAL_BUDGET) blocks the whole provider before it can silently bill. Most-capable
+    # general models only, best→weaker (coding/OCR/audio/embed models excluded):
+    ["-m", "mistral-large-latest", "--provider", "mistral"],    # flagship (mistral-large-2512)
+    ["-m", "mistral-medium-latest", "--provider", "mistral"],   # strong + faster (medium-3.5)
+    ["-m", "mistral-small-latest", "--provider", "mistral"],    # efficient tail
     ["-m", "openai/gpt-oss-120b", "--provider", "groq"],      # 120B best on Groq
     ["-m", "llama-3.3-70b-versatile", "--provider", "groq"],
     ["-m", "qwen/qwen3.6-27b", "--provider", "groq"],
@@ -134,6 +155,16 @@ WORKER_CHAIN = [
 # Back-compat default (a few call sites reference MODEL_ARGS); polish uses a fresh model.
 MODEL_ARGS = list(WORKER_CHAIN[0])
 EXHAUSTED_PATH = HERE / "exhausted_models.txt"
+
+# HARD BLOCKLIST (owner 2026-07-19): models with ZERO free quota — every call BILLS, so they
+# must NEVER be invoked (the 700k budget cap is reactive; it can't protect a model that bills
+# from token #1). Enforced at the completion choke points AND folded into the exhausted set so
+# the WORKER_CHAIN skips them. Omni/realtime + voice-enrollment are audio/realtime (no free
+# tier); the three LLMs below are paid-only snapshots.
+NEVER_CALL = {
+    "qwen-omni-turbo-realtime-latest", "qwen-omni-turbo-latest", "voice-enrollment",
+    "qwen-plus-character-ja", "qwen-plus-2025-01-25", "glm-5.2-fast-preview",
+}
 
 REVIEW_ENABLED = os.environ.get("PIPELINE_REVIEW", "1") == "1"
 REVIEW_MODEL_ARGS = ["-m", "glm-4.7-flash", "--provider", "zai"]  # vestigial; reviewer uses REVIEW_CHAIN
@@ -216,12 +247,52 @@ def _budget_exhausted():
     return _BUDGET_SPENT
 
 
+# MISTRAL BUDGET GUARD (owner 2026-07-20, card now on file): the free "Experiment" tier is
+# ~1B tokens/MONTH shared across ALL models (not per-model grants). With a card attached,
+# crossing 1B does NOT 403 — it silently bills at full rates (the DashScope trap). So we guard
+# the WHOLE provider: once cumulative Mistral spend hits MISTRAL_BUDGET, every Mistral model is
+# treated as exhausted. NOTE model_spend is cumulative ALL-TIME while the grant is MONTHLY — if
+# this ever trips, reset the provider='mistral' rows at a month boundary (as done for dashscope).
+MISTRAL_BUDGET = 975_000_000
+_MISTRAL_BLOCK = None
+
+
+def _mistral_spend_total():
+    tot = 0
+    try:
+        import db as _db
+        con = _db.connect()
+        try:
+            for (t,) in con.execute("SELECT tokens FROM model_spend WHERE provider='mistral'").fetchall():
+                tot += int(t or 0)
+        finally:
+            con.close()
+    except Exception:
+        pass
+    return tot
+
+
+def _mistral_over_budget():
+    """>= the 975M cap -> block every Mistral model (both chat + vision)."""
+    global _MISTRAL_BLOCK
+    if _MISTRAL_BLOCK is None:
+        if _mistral_spend_total() >= MISTRAL_BUDGET:
+            _MISTRAL_BLOCK = {c[c.index("-m") + 1] for c in WORKER_CHAIN
+                              if c[c.index("--provider") + 1] == "mistral"}
+            _MISTRAL_BLOCK |= {m for p, m in VL_CHAIN if p == "mistral"}
+        else:
+            _MISTRAL_BLOCK = set()
+    return _MISTRAL_BLOCK
+
+
 def _load_exhausted():
     try:
         ex = set(l.strip() for l in EXHAUSTED_PATH.read_text(encoding="utf-8").splitlines() if l.strip())
     except FileNotFoundError:
         ex = set()
     ex |= _budget_exhausted()
+    ex |= _mistral_over_budget()                      # provider-wide 975M/month cap
+    ex |= NEVER_CALL                                 # no-free-quota models: never chain to them
     return ex
 
 
@@ -295,7 +366,13 @@ VISION_VERIFY_MODEL = os.environ.get("PIPELINE_VISION_MODEL",
 # Vision failover chain (2026-07-18): NVIDIA's vision endpoint was 504-ing, which silently
 # killed the photo QC. mistral-medium is VL-capable and independent, so vision survives one
 # provider outage. Each entry: (provider-key-in-DIRECT_PROVIDERS or "nvidia", model).
-VL_CHAIN = [("nvidia", VISION_VERIFY_MODEL), ("mistral", "mistral-medium-2508")]
+# Vision chain (owner 2026-07-20): Alibaba qwen-VL FIRST — free grants, and NVIDIA vision was
+# carrying it alone (13.8M tokens, now timing out). Mistral dropped (key dead / 401).
+VL_CHAIN = [("dashscope-intl", "qwen-vl-max"),       # WORKING + fast (~1.1s, probe 2026-07-21) — promoted
+            ("dashscope-intl", "qwen3-vl-flash"),
+            ("dashscope-intl", "qwen3-vl-plus"),     # quota-exhausted now; cheap-fail + auto-skip, may recover
+            ("nvidia", VISION_VERIFY_MODEL),         # TIMING OUT 2026-07-21 (nvidia vision endpoint) — demoted
+            ("mistral", "mistral-medium-latest")]    # DEAD key 401 2026-07-21 — last-resort until re-keyed
 
 # Language-polish pass: rewrites wording (facts frozen) when garbled/foreign
 # words survive review, so language issues become clean output not human work.
@@ -463,6 +540,39 @@ def _priority_set():
     return _PRIORITY_CACHE["v"]
 
 
+_REPROCESS_CACHE = {"key": None, "v": frozenset()}
+_REPROCESSED_THIS_PROC = set()      # codes this lane process has already re-served (avoid looping)
+REPROCESS_TAG = os.environ.get("V2_REPROCESS_TAG") or "reproc_embed1"
+
+
+def _reprocess_set():
+    """Force-reprocess allow-list. When V2_REPROCESS.txt exists, its codes are re-served even
+    though they already have a v2 record — used to re-run flagged products through an improved
+    pipeline (the embedding-grounded leaf consensus). A code drops out the moment its record
+    carries REPROCESS_TAG, so the pass is idempotent and resumable: each listed code is
+    reprocessed exactly once, then treated as done. Returns a set (empty when the file is
+    absent). GATED on env V2_REPROCESS=1 so ONLY the dedicated reprocess driver's lanes re-serve
+    — cron/priority lanes (which don't stamp REPROCESS_TAG) must ignore the file, else they'd loop
+    forever on it and abandon their normal queue."""
+    if os.environ.get("V2_REPROCESS") != "1":
+        return set()
+    p = HERE / "V2_REPROCESS.txt"
+    try:
+        mtime = p.stat().st_mtime
+    except OSError:
+        _REPROCESS_CACHE.update(key=None, v=frozenset())
+        return set()
+    if _REPROCESS_CACHE.get("key") != mtime:
+        targets = {ln.strip() for ln in p.read_text(encoding="utf-8").splitlines() if ln.strip()}
+        try:
+            import db as _db
+            targets -= _db.codes_with_tag(REPROCESS_TAG)         # already redone -> drop
+        except Exception:
+            pass
+        _REPROCESS_CACHE.update(key=mtime, v=frozenset(targets))
+    return set(_REPROCESS_CACHE["v"]) - _REPROCESSED_THIS_PROC
+
+
 def _done_set():
     """Codes already processed. DB-first (indexed, no ~26MB parse per lane process; the
     DB is authoritative and written first) UNION the small legacy results.jsonl (predates
@@ -532,8 +642,11 @@ def _fail_counts():
 
 def _next_task_scan(target_code, fail_counts):
     """Original fallback: stream tasks.jsonl. Used when the DB tasks table isn't ready."""
-    done = _done_set()
+    reproc = _reprocess_set()
+    done = _done_set() - reproc                    # force-reprocess codes are "not done"
     prio = _priority_set()
+    if reproc:                                     # a reprocess pass serves ONLY these codes
+        prio = reproc                              # overrides any standing V2_PRIORITY batch
     with open(TASKS_PATH, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
@@ -549,6 +662,8 @@ def _next_task_scan(target_code, fail_counts):
                     or not _in_shard(code) \
                     or (prio is not None and code not in prio):
                 continue
+            if code in reproc:
+                _REPROCESSED_THIS_PROC.add(code)   # don't re-serve within this process
             return task, fail_counts.get(code, 0)
     return None, 0
 
@@ -568,15 +683,20 @@ def next_task(target_code=None):
             global _TASKCODES_CACHE
             if _TASKCODES_CACHE is None:
                 _TASKCODES_CACHE = db.all_task_codes()
-            done = _done_set()
+            reproc = _reprocess_set()
+            done = _done_set() - reproc                 # force-reprocess codes are "not done"
             prio = _priority_set()
+            if reproc:                                  # a reprocess pass serves ONLY these codes
+                prio = reproc                           # overrides any standing V2_PRIORITY batch
             for code in _TASKCODES_CACHE:
-                if code in done or fail_counts.get(code, 0) >= MAX_ATTEMPTS \
+                if str(code) in done or fail_counts.get(code, 0) >= MAX_ATTEMPTS \
                         or not _in_shard(code) \
                         or (prio is not None and str(code) not in prio):
                     continue
                 t = db.get_tasks([code]).get(code)
                 if t:
+                    if str(code) in reproc:
+                        _REPROCESSED_THIS_PROC.add(str(code))
                     return t, fail_counts.get(code, 0)
             return None, 0
     except Exception:
@@ -1079,6 +1199,8 @@ def run_direct(prompt, model_args, system=WORKER_SYS, max_tokens=2000):
     fails over)."""
     model = model_args[model_args.index("-m") + 1]
     provider = model_args[model_args.index("--provider") + 1]
+    if model in NEVER_CALL:
+        raise RuntimeError(f"blocked no-free-quota model (NEVER_CALL): {model}")
     base_url, key_env = DIRECT_PROVIDERS[provider]
     client = _direct_client(base_url, key_env)
     resp = client.chat.completions.create(
@@ -1128,6 +1250,12 @@ def generate_with_chain(prompt, system=WORKER_SYS):
 # Llama on Groq leads: fast (~2s), different family from the Qwen worker, and a
 # quota independent of the worker's Alibaba and the vision pass's NVIDIA.
 REVIEW_CHAIN = [
+    # OPTION B (owner 2026-07-20): reliable dashscope models FIRST (different from the worker's
+    # primary qwen3.6-flash, so it's still an independent second opinion) — the old groq/zai/nvidia-
+    # only chain was "unavailable" ~366 times, killing the second leaf vote. Flaky tail kept as backup.
+    ["-m", "qwen-max", "--provider", "dashscope-intl"],
+    ["-m", "qwen3-235b-a22b-instruct-2507", "--provider", "dashscope-intl"],
+    ["-m", "qwen-plus", "--provider", "dashscope-intl"],
     ["-m", "llama-3.3-70b-versatile", "--provider", "groq"],
     ["-m", "glm-4.7-flash", "--provider", "zai"],
     ["-m", "meta/llama-3.3-70b-instruct", "--provider", "nvidia"],
@@ -1135,12 +1263,18 @@ REVIEW_CHAIN = [
 
 
 def run_reviewer_direct(prompt):
+    ex = _load_exhausted()
     last = None
-    for i, args in enumerate(REVIEW_CHAIN):
+    for args in REVIEW_CHAIN:
+        model = args[args.index("-m") + 1]
+        if model in ex:                            # skip quota-drained models (don't 403-walk them)
+            continue
         try:
             return run_direct(prompt, args, system=REVIEW_SYS)
         except Exception as e:
             last = e
+            if _is_quota_error(e):
+                _mark_exhausted(model)
     raise last if last else RuntimeError("no reviewer available")
 
 
@@ -1164,12 +1298,20 @@ def _nvidia_client():
     return _NV_CLIENT
 
 
+VISION_CALL_TIMEOUT = 30          # seconds per VL provider — a hung provider fails fast, next is tried
+
 def vision_complete(content, max_tokens=300):
-    """Run a vision chat over VL_CHAIN (NVIDIA → Mistral), returning the text of the first
-    provider that answers. Raises only if every VL provider fails. Used by the record-vs-
-    photo verify and the classifier vision tie-break so both survive a vision outage."""
+    """Run a vision chat over VL_CHAIN, returning the text of the first provider that answers.
+    Raises only if every VL provider fails. Used by the record-vs-photo verify and the classifier
+    vision tie-break so both survive a vision outage. Each provider call is capped at
+    VISION_CALL_TIMEOUT so a hung endpoint can never freeze a lane. Quota-exhausted models are
+    skipped via the shared EXHAUSTED_PATH guard and newly-drained ones are marked on a 403 — so a
+    dead vision model is walked at most once, not on every product (was a ~60s/product leak)."""
+    ex = _load_exhausted()
     last = None
     for prov, model in VL_CHAIN:
+        if model in NEVER_CALL or model in ex:
+            continue
         try:
             if prov == "nvidia":
                 client = _nvidia_client()
@@ -1178,12 +1320,15 @@ def vision_complete(content, max_tokens=300):
                 client = _direct_client(base_url, key_env)
             r = client.chat.completions.create(
                 model=model, temperature=0, max_tokens=max_tokens,
-                messages=[{"role": "user", "content": content}])
+                messages=[{"role": "user", "content": content}],
+                timeout=VISION_CALL_TIMEOUT)          # hard per-provider cap — never freeze a lane
             txt = r.choices[0].message.content or ""
             if txt.strip():
                 return txt
         except Exception as e:
             last = e
+            if _is_quota_error(e):                 # 403 free-quota drained -> skip it from now on
+                _mark_exhausted(model)
     if last:
         raise last
     return ""
@@ -1237,23 +1382,31 @@ def verify_against_image(image_url, fields):
         return {"ok": None, "error": f"image_load:{str(e)[:80]}"}
 
     prompt = (
-        "Ти си контрол на качеството. Разгледай СНИМКАТА и провери дали описанието "
-        "на продукта ѝ съответства. За всяко несъответствие дай ВЯРНАТА стойност "
-        "според снимката. Отговори САМО с JSON:\n"
-        '{"тип_ок": true/false, "форма_ок": true/false, "материал_ок": true/false, '
-        '"цвят_ок": true/false, "брой_ок": true/false, '
-        '"вярна_форма": "правоъгълна/кръгла/овална/квадратна/друга или null", '
-        '"вярен_тип": "какво е всъщност, или null", '
-        '"вярен_материал": "материал от снимката или null", '
-        '"вярен_цвят": "основен цвят от снимката или null", '
-        '"верен_брой": "брой части ако се вижда, или null", '
-        '"видим_бранд": "марката НА САМИЯ продукт/опаковка ако ясно се чете, иначе null", '
-        '"сигурност": "висока/средна/ниска — колко си сигурен в оценката от снимката", '
-        '"забележка": "кратко описание на разминаването или null"}\n\n'
-        "ВАЖНО: сигурност=висока САМО ако снимката е ясна и разминаването е недвусмислено. "
-        "За видим_бранд: чети САМО марка отпечатана върху продукта/опаковката. "
-        "ИГНОРИРАЙ водни знаци и лога на магазини/доставчици (напр. EGERA, LEVENA, MIRA-N) — "
-        "те НЕ са марка на продукта. Не отгатвай; ако не си сигурен върни null.\n"
+        "Ти си контрол на качеството за онлайн магазин. Разгледай ВНИМАТЕЛНО само СНИМКАТА.\n"
+        "1) Опиши накратко какво виждаш.\n"
+        "2) Прецени ЦЯЛОСТНО дали снимката наистина показва ЗАЯВЕНИЯ продукт: правилен ли е видът, "
+        "основният цвят, формата и броят; не показва ли снимката ДРУГ продукт, само ЧАСТ от него, "
+        "или е повредена/грешно обработена.\n"
+        "Отговори САМО с JSON:\n"
+        '{"виждам": "<вид, основен цвят, материал, форма, брой — накратко>", '
+        '"съответства": true/false, '
+        '"разминаване": "<конкретното разминаване с една фраза, или null>", '
+        '"тежест": "критично/дребно/няма", '
+        '"сигурност": "висока/средна/ниска", '
+        '"видим_бранд": "<марка ВЪРХУ продукта/опаковката, или null>"}\n\n'
+        "ПРАВИЛА за тежест:\n"
+        "• критично — ЯСНО и значимо несъответствие, което клиент би забелязал: друг продукт, "
+        "грешен ОСНОВЕН цвят, грешна форма, грешен брой, ИЛИ снимката не показва продукта / показва "
+        "само ЧАСТ от него / е повредена или грешно обработена (напр. остатък след изрязване).\n"
+        "• дребно — малка или несигурна разлика (нюанс, осветление, опаковка, ъгъл).\n"
+        "• няма — съответства.\n"
+        "За СТЪКЛО/прозрачни продукти: отраженията и прозрачността правят цвят/материал трудни за "
+        "преценка — тази НЕЯСНОТА сама по себе си НЕ е критично (все пак провери продукта). НО ако "
+        "виждаш ДРУГ продукт, грешна форма, само ЧАСТ или повредена снимка — това Е критично, "
+        "независимо от материала.\n"
+        "сигурност=висока САМО ако снимката е ясна и наистина си сигурен.\n"
+        "видим_бранд: чети САМО марка отпечатана върху продукта/опаковката; ИГНОРИРАЙ водни знаци и "
+        "лога на магазини/доставчици (напр. EGERA, LEVENA, MIRA-N). Не отгатвай; ако не си сигурен → null.\n\n"
         f"ЗАЯВЕНО:\nИме: {fields.get('Наименование')}\n"
         f"Атрибути: {fields.get('Атрибути')}\n"
         f"Описание (само за проверка): {str(fields.get('Описание'))[:400]}"
@@ -1267,9 +1420,26 @@ def verify_against_image(image_url, fields):
         v = json.loads(m.group(0)) if m else None
         if not v:
             return {"ok": None, "error": "no_json"}
-        mismatches = [k for k in ("тип_ок", "форма_ок", "материал_ок", "цвят_ок", "брой_ок")
-                      if v.get(k) is False]
-        return {"ok": not mismatches, "mismatch": mismatches, "detail": v}
+        # HOLISTIC verdict, not a per-property checklist. The model describes the photo, then
+        # judges the WHOLE product against the record and grades severity. A CONFIDENT, CRITICAL
+        # discrepancy — wrong product, wrong main colour/shape/count, OR a broken/partial/wrong
+        # image (e.g. the cake stand that image-processing cropped down to just the cake) — FORCES
+        # review. A minor or uncertain difference is a soft note (image_unverified), never a flag.
+        # The prompt tells the model to IGNORE transparent-glass / reflection ambiguity, which is
+        # what killed the false positives the old per-property material/colour checks produced
+        # (owner 2026-07-20). This catches EVERYTHING real (wrong colour, wrong product, bad image),
+        # not just geometry, while staying quiet on ambiguous materials.
+        sev = str(v.get("тежест") or "").strip().lower()
+        conf = str(v.get("сигурност") or "").strip().lower()
+        disc = v.get("разминаване") or v.get("забележка")
+        if sev == "критично" and conf == "висока":
+            return {"ok": False, "mismatch": [str(disc)[:60] if disc else "критично"],
+                    "soft": [], "detail": v, "confidence": conf}
+        if sev in ("критично", "дребно") or (v.get("съответства") is False):
+            # a real-but-unconfident or minor discrepancy: record it, don't pull into the queue
+            return {"ok": None, "mismatch": [], "soft": [str(disc)[:60]] if disc else [],
+                    "detail": v, "confidence": conf}
+        return {"ok": True, "mismatch": [], "soft": [], "detail": v, "confidence": conf}
     except Exception as e:
         return {"ok": None, "error": f"vision_call:{str(e)[:80]}"}
 

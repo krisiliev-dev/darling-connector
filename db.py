@@ -15,11 +15,17 @@ dual-write DB-FIRST, then append the JSONL. The `results*.jsonl` are a rebuildab
 EXPORT / disaster-recovery source — `ingest()` reconstructs the DB from them — but they are NOT
 what the pipeline reads at runtime. (The earlier "JSONL is ground truth" note was stale.)
 """
-import json, glob, sqlite3
+import json, glob, os, sqlite3
 from pathlib import Path
 
 HERE = Path(__file__).parent
-DB_PATH = HERE / "pipeline.db"
+
+# The DB is resolved from PIPELINE_DB when set, else next to this file (unchanged default, so the
+# pipeline behaves exactly as before). The override exists because this module gets imported from a
+# vendored copy inside the panel: resolving the database relative to `__file__` tied the DATA ROOT to
+# the MODULE PATH, so moving the import moved the data lookup with it and the panel read a database
+# that wasn't there. Data root and import path are now independent. (2026-07-31, panel #98)
+DB_PATH = Path(os.environ["PIPELINE_DB"]) if os.environ.get("PIPELINE_DB") else HERE / "pipeline.db"
 
 _STAGE_KEYS = [
     ("name_builder:convention", "rename"),
@@ -44,6 +50,15 @@ def _stage(notes):
 
 
 def connect():
+    # sqlite CREATES a missing file rather than failing, so a misconfigured PIPELINE_DB produced an
+    # empty 4KB database: the first query said "no such table", and a LATER one would have read it
+    # as an EMPTY CATALOGUE — a wrong answer wearing the costume of a real one. An explicitly
+    # configured path that isn't there is a misconfiguration, never a first run, so refuse it.
+    # (The default path may still be created on demand — that IS a legitimate first run.)
+    if os.environ.get("PIPELINE_DB") and not DB_PATH.exists():
+        raise FileNotFoundError(
+            f"PIPELINE_DB points at {DB_PATH}, which does not exist. Refusing to create an empty "
+            f"database there — it would report 'no such table' now and an empty catalogue later.")
     con = sqlite3.connect(str(DB_PATH), timeout=10)
     con.execute("PRAGMA journal_mode=WAL")
     con.execute("PRAGMA busy_timeout=8000")
@@ -229,6 +244,26 @@ def get_product(code):
             "primary_model": row[4], "total_tokens": row[5], "fields": json.loads(row[6] or "{}")}
 
 
+_TOTAL_CACHE = {"n": None}
+
+
+def catalog_total():
+    """Full catalog size = distinct codes ingested from the Microinvest export (the `tasks`
+    table). Used as the denominator for 'processed X of N' across the review site. Cached for
+    the process lifetime (the export only grows when new supplier data is loaded); falls back
+    to the historical 14159 if the table can't be read."""
+    if _TOTAL_CACHE["n"] is None:
+        try:
+            c = connect()
+            try:
+                _TOTAL_CACHE["n"] = c.execute("SELECT COUNT(DISTINCT code) FROM tasks").fetchone()[0] or 14159
+            finally:
+                c.close()
+        except Exception:
+            return 14159
+    return _TOTAL_CACHE["n"]
+
+
 def ingest_tasks(verbose=True):
     """Load tasks.jsonl (the 167MB source-of-truth input) into an indexed table so a
     per-code lookup is a keyed query instead of a 167MB scan. Static input — ingest once
@@ -330,6 +365,19 @@ def done_codes_v2():
         return {str(r[0]) for r in con.execute(
             "SELECT DISTINCT code FROM versions WHERE notes_json LIKE ?",
             ('%"v2"%',)).fetchall()}
+    finally:
+        con.close()
+
+
+def codes_with_tag(tag):
+    """Codes whose CURRENT record carries `tag` in its notes. Used to make a reprocess pass
+    idempotent: a flagged code drops out of the reprocess queue the moment its re-run record
+    is written with the pass's tag (covers pinned products too, which skip the leaf vote)."""
+    con = connect()
+    try:
+        return {str(r[0]) for r in con.execute(
+            "SELECT code FROM products WHERE notes_json LIKE ?",
+            (f'%{tag}%',)).fetchall()}
     finally:
         con.close()
 

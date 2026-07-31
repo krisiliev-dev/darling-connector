@@ -1,0 +1,717 @@
+10.7. Поддържани устройства — Документация barsy 3.0
+
+ 10. Справочна информация
+
+ 10.7. Поддържани устройства
+
+ 10.7. Поддържани устройства 
+
+ Barsy поддържа широка гама от периферни устройства за работа в търговски обекти. Списъкът включва касови апарати, фискални и системни принтери, POS терминали, везни и други. За актуална информация относно конкретен модел, моля свържете се с екипа на Barsy.
+
+ Общ брой поддържани устройства: 246
+
+ 10.7.1. Касови апарати 
+
+ Daisy 
+
+ Compact M (USB)
+
+ Compact S (RS232)
+
+ Compact S-KL (RS232)
+
+ Expert (RS232)
+
+ eXpert SX (RS232)
+
+ eXpert-KL (RS232)
+
+ Micro C-KL (RS232)
+
+ Perfect M-KL (RS232)
+
+ Perfect S-KL (RS232)
+
+ Datecs 
+
+ BlueCash-50 (WiFi)
+
+ BlueCash-500 (WiFi)
+
+ BlueCash-50MX (WiFi)
+
+ DP-05L (RS232, USB, WiFi, Bluetooth)
+
+ DP-150 (RS232)
+
+ DP-150KL (RS232)
+
+ DP-150MX (RS232)
+
+ DP-15KL (RS232)
+
+ DP-25 Romania (RS232, USB, WiFi, Bluetooth)
+
+ DP-25KL (RS232)
+
+ DP-25MX (RS232, USB, WiFi, Bluetooth)
+
+ DP-25X (RS232, USB, WiFi, Bluetooth)
+
+ DP-35KL (RS232)
+
+ DP-50KL (RS232)
+
+ DP-55KL (RS232)
+
+ WP-50 (RS232, USB, WiFi, Bluetooth)
+
+ WP-500KL (RS232)
+
+ WP-500X (RS232, USB, WiFi, Bluetooth)
+
+ WP-50X (RS232, USB, WiFi, Bluetooth)
+
+ Elektronika 
+
+ 12KL (RS232)
+
+ Elicom 
+
+ TBS-KL (RS232)
+
+ Eltrade 
+
+ A1 (RS232, USB, WiFi, Bluetooth)
+
+ A3 (RS232, USB)
+
+ B1 (RS232)
+
+ B3 (RS232, USB)
+
+ Incotex 
+
+ 181 (RS232, USB)
+
+ Tremol 
+
+ A19 Plus (RS232)
+
+ M-KL-V2
+
+ M20 (RS232, USB, WiFi, Bluetooth)
+
+ M23 (RS232, Bluetooth)
+
+ S21 (RS232)
+
+ S25 (USB)
+
+ ZM-KL (RS232)
+
+ ZM-KL-V2
+
+ ZIT 
+
+ 2007 BG (USB)
+
+ B20 (RS232, USB, WiFi, Bluetooth)
+
+ myPOS 
+
+ Carbon Fiscal (WiFi)
+
+ 10.7.2. Фискални принтери 
+
+ Daisy 
+
+ DP1200-KL (RS232)
+
+ FX1200C-KL (RS232)
+
+ FX1300 (RS232)
+
+ FX1300-KL (RS232)
+
+ Datecs 
+
+ FMP-10KL (RS232)
+
+ FMP-350X (RS232, USB, Bluetooth)
+
+ FP-2000 (RS232)
+
+ FP-2000KL (RS232)
+
+ FP-50X (USB)
+
+ FP-650 (RS232)
+
+ FP-700 (RS232)
+
+ FP-700MX (RS232, USB)
+
+ FP-700X (RS232)
+
+ FP-705KL (RS232)
+
+ FP-800 (RS232)
+
+ FP-950MX (RS232, USB, WiFi, Bluetooth)
+
+ FP1000 (RS232)
+
+ FP1000KL (RS232)
+
+ FP550-40 (RS232)
+
+ FP550KL (RS232)
+
+ FP60 (RS232)
+
+ FP60KL (RS232)
+
+ SK1-31F
+
+ Elicom 
+
+ TP330F-KL (RS232)
+
+ Eltrade 
+
+ EPSON TM-T810F (RS232, USB)
+
+ PRP 250F KL
+
+ INCOTEX 
+
+ Incotex 300S-KL (RS232)
+
+ Incotex 
+
+ 300SM KL-Q (RS232, USB)
+
+ Tremol 
+
+ FP01-KL (RS232)
+
+ FP15-KL (RS232)
+
+ FP21
+
+ FP28 (RS232, USB, WiFi, Bluetooth)
+
+ ZM (RS232)
+
+ 10.7.3. Системни принтери 
+
+ 3logic 
+
+ CN710-USE (RS232, USB)
+
+ Axlohm 
+
+ Teles002 (RS232)
+
+ TELESTO (RS232)
+
+ Bixolon 
+
+ SRP-270A (RS232)
+
+ Citizen 
+
+ CS-2000 (RS232, USB)
+
+ CT-E351 (RS232, USB)
+
+ Daisy 
+
+ 1250RP (RS232)
+
+ D-1200 (RS232)
+
+ Daisy (RS232)
+
+ Datecs 
+
+ BlueCash-50e
+
+ DPP-250 (RS232, USB, Bluetooth)
+
+ DPP-350 (RS232, USB, WiFi, Bluetooth)
+
+ EP-50MX (RS232, USB)
+
+ EP-700 (RS232, USB)
+
+ EP1000 (RS232)
+
+ EP2000 (RS232)
+
+ EP50M (RS232)
+
+ EP60 (RS232)
+
+ Elanda 
+
+ P-25 (RS232, USB)
+
+ Eltrade 
+
+ Tysso PRP058K-USB (RS232)
+
+ Epos Now 
+
+ POS80GXa (RS232, USB)
+
+ Epson 
+
+ EPSON (RS232)
+
+ ITP-80 II Beeper (RS232, USB)
+
+ ITP-80II WF
+
+ QP-300 (RS232)
+
+ TM-T88IV M129H (RS232)
+
+ TM-U220D M188D (RS232)
+
+ Fiskalux 
+
+ Print (RS232)
+
+ Fujitsu 
+
+ FP-510 (RS232, USB)
+
+ HPRT 
+
+ PPTII-A (RS232)
+
+ TP-801 (RS232)
+
+ TP805 (RS232)
+
+ ISL 
+
+ ISL3810 (RS232)
+
+ ITP 
+
+ ITP 81 Plus (RS232)
+
+ Orgtechnika 
+
+ OT801 (RS232)
+
+ Posiflex 
+
+ Aura PP-6800 (RS232)
+
+ Aura PP-6900 (RS232)
+
+ PP-8800 (RS232)
+
+ PP7000 (RS232)
+
+ Кухненски-PP7000 (RS232)
+
+ Rongta 
+
+ RP326 (RS232)
+
+ Rongta Technology Co 
+
+ Thermal Printer RP58-S (RS232)
+
+ SPRT 
+
+ SP-POS88VMF (RS232, USB)
+
+ Sprint 
+
+ TM-200-RS232 (RS232)
+
+ Star 
+
+ mC-Print2 (USB)
+
+ Sunmi 
+
+ D2P-58
+
+ Syncotek 
+
+ POS-58 (RS232)
+
+ TMT 
+
+ L300USL (RS232, USB)
+
+ TPG 
+
+ A795-5119 (RS232)
+
+ Telpo 
+
+ DED-801
+
+ Tremol 
+
+ EP-58130 (RS232)
+
+ EP-5860 (USB)
+
+ EP-80250I Plus (RS232, USB)
+
+ EP01 (RS232)
+
+ Tysso 
+
+ PRP-058 (RS232)
+
+ PRP-058GI (RS232)
+
+ Tysso (RS232)
+
+ Unisystem 
+
+ UNS-SP1 (RS232)
+
+ Wincor Nixdorf 
+
+ TH210 (RS232)
+
+ TH230 (RS232)
+
+ Xprinter 
+
+ XP-C2008
+
+ XP-S260M (RS232, USB, WiFi)
+
+ sPrint 
+
+ TM200 Plus (RS232, USB, WiFi, Bluetooth)
+
+ 10.7.4. POS терминали за карти 
+
+ Borika 
+
+ bPOS
+
+ Castles 
+
+ Vega 3000 - ProCredit (RS232)
+
+ DSK 
+
+ SoftPos
+
+ Datecs 
+
+ BlueCash-50 (WiFi)
+
+ BlueCash-50MX (WiFi)
+
+ BluePad 5000 (USB)
+
+ BluePad 5000 - BORIKA (USB)
+
+ BluePad-50 (USB)
+
+ BluePad-50 Plus със стойка (USB)
+
+ BluePad-50 със стойка (USB)
+
+ BluePad-55 (USB)
+
+ BluePad-55 със стойка (USB)
+
+ Fibank 
+
+ Wiseasy P5
+
+ Ingenico 
+
+ Desk/2600 - ProCredit (RS232, USB)
+
+ Desk/3200 (RS232, USB)
+
+ ict220 - Fibank (RS232)
+
+ iCT220 - Postbank (RS232, USB)
+
+ iCT220 - ОББ (RS232, USB)
+
+ iCT250 - Fibank (RS232)
+
+ Move/3500 (RS232)
+
+ PAX 
+
+ Q80
+
+ S300 - myPOS (RS232)
+
+ Postbank 
+
+ Smart POS
+
+ Spectra 
+
+ Apollo Fibank (USB)
+
+ SumUp 
+
+ Solo
+
+ Transcard 
+
+ BluePad 5000 - Transcard (USB)
+
+ Unicredit 
+
+ ePos
+
+ Verifone 
+
+ V200c - Unicredit
+
+ V200t - DSK (RS232)
+
+ V200t - Fibank (RS232, USB)
+
+ V200t - KBC Group (RS232)
+
+ V200t - ProCredit (RS232, USB)
+
+ V200t - Unicredit (RS232, USB)
+
+ V200t - ОББ (RS232, USB)
+
+ vx520 - BORIKA (RS232)
+
+ vx520 - DSK (RS232)
+
+ vx520 - Postbank (RS232)
+
+ vx520 - ProCredit (RS232)
+
+ vx520 - Raiffeisen (RS232)
+
+ vx520 - Texim bank (RS232)
+
+ vx520 - Unicredit (RS232)
+
+ vx520 - ОББ (RS232)
+
+ Viva Wallet 
+
+ Ciontek CS50 (WiFi)
+
+ PAX-A35 (RS232, USB, WiFi, Bluetooth)
+
+ Terminal App (WiFi)
+
+ myPOS 
+
+ Carbon POS (WiFi)
+
+ Glass
+
+ Go - K300 (USB)
+
+ Go 2 (USB)
+
+ Integra
+
+ Mini
+
+ Sigma
+
+ Ultra
+
+ myPos 
+
+ Combo
+
+ 10.7.5. Везни 
+
+ Bizerba 
+
+ Bizerba BC2 (RS232)
+
+ ECO ASIA (RS232)
+
+ DIBAL 
+
+ DPOS 400 (RS232)
+
+ Daisy 
+
+ DSC6 (RS232)
+
+ LS2ZC
+
+ Datalogic 
+
+ Magellan 8200 Omega (RS232)
+
+ Dibal 
+
+ 500-SW
+
+ M-525D (RS232)
+
+ Elicom 
+
+ E-SLIM (RS232)
+
+ EVL 3/6 (RS232)
+
+ EVL 6/15 (RS232)
+
+ S200L
+
+ S300 FM
+
+ S300 PM
+
+ S300P (RS232)
+
+ Mettler Toledo 
+
+ Ariva-B-D7 (RS232)
+
+ UC
+
+ Teraoka 
+
+ DIGI SM-500 mk4 (RS232)
+
+ DIGI-SM-320 (RS232)
+
+ Vedia 
+
+ VDS-6/15C (RS232)
+
+ 10.7.6. Етикиращи принтери 
+
+ Arkscan 
+
+ STS-47-LP (USB)
+
+ TMT-LP47UL (USB)
+
+ Bixolon 
+
+ XD3-40d (RS232, USB)
+
+ XPrinter 
+
+ XP-470B (USB)
+
+ Xiamen Hanin Electronic Technologies 
+
+ HD100 Label Printer
+
+ LPQ58 Label Printer
+
+ Zebra Technologies 
+
+ GC420t Desktop Printer (RS232)
+
+ LP2824 Label Printer
+
+ LP2824 Plus Label Printer (EPL)
+
+ LP2824 Plus Label Printer (ZPL)
+
+ 10.7.7. Клиентски дисплеи 
+
+ Datecs 
+
+ Datecs (RS232)
+
+ Datecs2 (RS232)
+
+ EPSON
+
+ N/A 
+
+ EPSON (RS232)
+
+ NCR (RS232)
+
+ 10.7.8. Билярд контролери 
+
+ Denkovi Ltd 
+
+ smartDEN 16 Relay Board LAN (WiFi)
+
+ Lukanet 
+
+ Захранващ контролер (RS232)
+
+ SIRIUS-PCB Ltd 
+
+ 16 Relay USB Timer (RS232)
+
+ 4 Relay USB Timer (RS232)
+
+ 8 Relay USB Timer (RS232)
+
+ USB 8xRelay12V (RS232)
+
+ 10.7.9. DVR устройства 
+
+ Dahua 
+
+ DH-XVR5104HS-I3
+
+ DVR Dahua NVR-5 (RS232)
+
+ 10.7.10. Терминали за пари 
+
+ Cashmatic 
+
+ SelfPay 460
+
+ Qibixx 
+
+ Gryphon + NV9 (RS232, USB)
+
+ 10.7.11. Пейджър контролери 
+
+ Retekess 
+
+ TD030 (USB)
+
+ Witop 
+
+ Пейджър контролер (RS232)
+
+ 10.7.12. Клиентски пейджър контролери 
+
+ Retekess 
+
+ TD177 (USB)
+
+ 10.7.13. Принтери (общи) 
+
+ Cups 
+
+ Принтер през CUPS
+
+ 10.7.14. Таймери 
+
+ Shenzhen Soffa Technology 
+
+ Таймер LED гривна (USB)
+
+ За информация относно свързване и настройка на конкретно устройство, моля консултирайте се с документацията на съответния модел или се свържете с екипа на Barsy.

@@ -15,3 +15,9 @@ shopify_taxonomy/*.yml
 .taxonomy_build.lock
 .reprocess.lock
 tool-results/
+
+# runtime state / secrets - never versioned
+.shopify_token.json
+.connector_echo.json
+barsy_docs/_tmp/
+

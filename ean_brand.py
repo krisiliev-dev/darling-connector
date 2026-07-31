@@ -359,14 +359,49 @@ def worklist():
     cnt = Counter(d["prefix"] for d in rows if d.get("prefix"))
     unknown = [(p, n) for p, n in cnt.most_common() if p not in cache]
     print(f"{len(cnt)} prefixes, {len(unknown)} unresolved. Top of worklist "
-          f"(one example EAN each — paste into gs1.org Verified by GS1, ~30/day free):")
+          f"(one example EAN each - paste into gs1.org Verified by GS1, ~30/day free):")
     ex = {}
     for d in rows:
         if d.get("prefix") and d["prefix"] not in ex:
             ex[d["prefix"]] = d["ean"]
     for p, n in unknown[:30]:
         c = _COUNTRY.get(p[:3], "?")
-        print(f"  {p}…  {n:4d} продукта  [{c}]  пример: {ex.get(p)}")
+        print(f"  {p}..  {n:4d} продукта  [{c}]  пример: {ex.get(p)}")
+
+
+def worklist_file(path=None, limit=None):
+    """Write the FULL grouped worklist to a file for the owner's daily manual GS1 lookups:
+    EVERY still-unresolved 9-digit company prefix (already-checked ones in the cache drop off),
+    most-products-first, one example EAN each. Regenerate after each batch is ingested.
+      python ean_brand.py --worklist-file          # -> gs1_worklist_today.txt (all)
+      python ean_brand.py --worklist-file 200      # top 200 only"""
+    from collections import Counter
+    cache = prefix_cache()
+    rows = _load(BARCODES)
+    cnt = Counter(d["prefix"] for d in rows if d.get("prefix"))
+    unknown = [(p, n) for p, n in cnt.most_common() if p not in cache]
+    if limit:
+        unknown = unknown[:limit]
+    ex = {}
+    for d in rows:
+        if d.get("prefix") and d["prefix"] not in ex:
+            ex[d["prefix"]] = d["ean"]
+    out = path or (HERE / "gs1_worklist_today.txt")
+    lines = [
+        "GS1 WORKLIST — поставяй всеки пример EAN в https://www.gs1.org/services/verified-by-gs1",
+        "(~30/ден безплатно). Запиши върнатото Company Name под всеки ред; после кажи на Claude да ги въведе.",
+        f"Групирано по 9-цифрен фирмен префикс, най-много продукти първо. Остават {len(unknown)} префикса "
+        f"({sum(n for _, n in unknown)} продукта).",
+        "",
+    ]
+    for i, (p, n) in enumerate(unknown, 1):
+        c = _COUNTRY.get(p[:3], "?")
+        lines.append(f"{i}. префикс {p}  ({n} продукта) [{c}]  пример EAN: {ex.get(p)}")
+        lines.append("   Company Name: ______")
+        lines.append("")
+    out.write_text("\n".join(lines), encoding="utf-8")
+    print(f"wrote {out.name}: {len(unknown)} prefixes, {sum(n for _, n in unknown)} products")
+    return out
 
 
 def set_prefix(prefix, owner, brand=None, inactive=False, distributor=False,
@@ -402,8 +437,28 @@ def set_prefix(prefix, owner, brand=None, inactive=False, distributor=False,
         print(f"{prefix} -> {brand!r}" + (f"  (mfr: {derived})" if brand != derived else ""))
     if inactive:
         entry["gs1_inactive"] = True
-    with PREFIX_CACHE.open("a", encoding="utf-8") as fh:
-        fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    # ean_prefix_cache.jsonl is now DERIVED from pipeline-v3/brand_registry.json and is REWRITTEN on
+    # every rebuild — appending here would look applied and then silently vanish. Human/GS1 decisions
+    # belong in the override store, which is folded in last and always wins. (2026-07-31)
+    _ov = HERE.parent / "pipeline-v3" / "brand_overrides.json"
+    try:
+        doc = json.loads(_ov.read_text(encoding="utf-8")) if _ov.exists() else {}
+    except Exception:
+        doc = {}
+    doc.setdefault("schema_version", 1)
+    doc.setdefault("overrides", [])
+    setv = {k: v for k, v in entry.items() if k not in ("prefix", "ts")}
+    for o in doc["overrides"]:
+        if o.get("target") == "prefix" and o.get("id") == prefix:
+            o.setdefault("set", {}).update(setv)
+            o["when"] = entry.get("ts")
+            break
+    else:
+        doc["overrides"].append({"target": "prefix", "id": prefix, "set": setv,
+                                 "who": "ean_brand --set", "when": entry.get("ts"),
+                                 "why": "GS1 lookup recorded via ean_brand.set_prefix"})
+    _ov.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"  recorded as an OVERRIDE in {_ov.name} — run build_registry.py + emit_legacy.py to apply")
 
 
 def report():
@@ -416,8 +471,16 @@ def report():
 
 
 if __name__ == "__main__":
+    try:                                    # Cyrillic/em-dash output on a cp1252 console
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     if "--ingest" in sys.argv:
         ingest(sys.argv[sys.argv.index("--ingest") + 1])
+    elif "--worklist-file" in sys.argv:
+        i = sys.argv.index("--worklist-file")
+        n = sys.argv[i + 1] if len(sys.argv) > i + 1 and sys.argv[i + 1].isdigit() else None
+        worklist_file(limit=int(n) if n else None)
     elif "--worklist" in sys.argv:
         worklist()
     elif "--conflicts" in sys.argv:
